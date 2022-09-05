@@ -61,11 +61,38 @@ namespace MintyPeterson.Counter.Api.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Counter.
+        /// </summary>
+        internal static string DefaultProductName {
+            get {
+                return ResourceManager.GetString("DefaultProductName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Unknown.
+        /// </summary>
+        internal static string DefaultProductVersion {
+            get {
+                return ResourceManager.GetString("DefaultProductVersion", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to A parameter value is not valid..
         /// </summary>
         internal static string PropertyValueInvalid {
             get {
                 return ResourceManager.GetString("PropertyValueInvalid", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to For more information, please see https://github.com/mintypeterson/counter.
+        /// </summary>
+        internal static string SupportInformation {
+            get {
+                return ResourceManager.GetString("SupportInformation", resourceCulture);
             }
         }
     }

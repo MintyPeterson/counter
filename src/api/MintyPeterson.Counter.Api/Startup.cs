@@ -74,7 +74,7 @@ namespace MintyPeterson.Counter.Api
           options =>
           {
             options.Authority = configuration.GetValue<string>("IdentityServerAddress");
-            options.Audience = "Counter API";
+            options.Audience = "counter_api";
 
             options.TokenValidationParameters.ValidTypes = new[] { "at+jwt" };
           });
@@ -122,6 +122,17 @@ namespace MintyPeterson.Counter.Api
           SupportedUICultures = supportedCultures,
 
           DefaultRequestCulture = new RequestCulture("en-GB"),
+        });
+
+      application.UseRouting();
+      application.UseCors();
+      application.UseAuthentication();
+      application.UseAuthorization();
+
+      application.UseEndpoints(
+        endpoints =>
+        {
+          endpoints.MapControllers();
         });
     }
   }

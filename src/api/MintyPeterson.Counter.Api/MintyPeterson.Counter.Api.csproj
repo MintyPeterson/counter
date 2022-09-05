@@ -4,6 +4,8 @@
     <TargetFramework>net6.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
+    <Authors>Tom Cook</Authors>
+    <Product>Counter API</Product>
   </PropertyGroup>
 
   <PropertyGroup>

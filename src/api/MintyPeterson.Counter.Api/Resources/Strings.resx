@@ -117,7 +117,16 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="DefaultProductName" xml:space="preserve">
+    <value>Counter</value>
+  </data>
+  <data name="DefaultProductVersion" xml:space="preserve">
+    <value>Unknown</value>
+  </data>
   <data name="PropertyValueInvalid" xml:space="preserve">
     <value>A parameter value is not valid.</value>
+  </data>
+  <data name="SupportInformation" xml:space="preserve">
+    <value>For more information, please see https://github.com/mintypeterson/counter</value>
   </data>
 </root>
