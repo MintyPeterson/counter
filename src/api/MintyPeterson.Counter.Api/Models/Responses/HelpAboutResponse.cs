@@ -5,7 +5,7 @@
 namespace MintyPeterson.Counter.Api.Responses
 {
   /// <summary>
-  /// Provides a response model for information about the API.
+  /// Provides a response model for <see cref="Controllers.HelpController.About"/>.
   /// </summary>
   public class HelpAboutResponse
   {
