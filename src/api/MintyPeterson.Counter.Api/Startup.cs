@@ -6,8 +6,11 @@ namespace MintyPeterson.Counter.Api
 {
   using System.Globalization;
   using Microsoft.AspNetCore.Authentication.JwtBearer;
+  using Microsoft.AspNetCore.Authorization;
   using Microsoft.AspNetCore.Localization;
   using Microsoft.AspNetCore.Mvc;
+  using MintyPeterson.Counter.Api.Filters;
+  using MintyPeterson.Counter.Api.Policies;
   using MintyPeterson.Counter.Api.Resources;
   using MintyPeterson.Counter.Api.Services.Storage;
 
@@ -52,13 +55,28 @@ namespace MintyPeterson.Counter.Api
             configuration.GetConnectionString("DapperStorageService"));
         });
 
-      services.AddAuthorization();
+      // Add handlers for policy-based authorisation.
+      var handlers = typeof(Startup).Assembly.GetTypes().Where(
+        t => t.IsClass && typeof(IAuthorizationHandler).IsAssignableFrom(t));
+
+      foreach (var handler in handlers)
+      {
+        services.AddTransient(typeof(IAuthorizationHandler), handler);
+      }
+
+      services.AddAuthorization(
+        options =>
+        {
+          EntryPolicies.AddPolicies(options);
+        });
 
       services.AddControllers(
         options =>
         {
           options.ModelBindingMessageProvider.SetAttemptedValueIsInvalidAccessor(
             (a, b) => Strings.PropertyValueInvalid);
+
+          options.Filters.Add<UserSynchroniseActionFilter>();
         });
 
       services.Configure<ApiBehaviorOptions>(

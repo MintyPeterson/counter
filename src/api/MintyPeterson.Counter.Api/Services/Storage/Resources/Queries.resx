@@ -117,40 +117,14 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="DefaultProductName" xml:space="preserve">
-    <value>Counter</value>
+  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="EntryNewInsert" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>entrynewinsert.sql;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
   </data>
-  <data name="DefaultProductVersion" xml:space="preserve">
-    <value>Unknown</value>
+  <data name="UserSynchroniseInsert" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>usersynchroniseinsert.sql;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
   </data>
-  <data name="Entry" xml:space="preserve">
-    <value>Entry</value>
-  </data>
-  <data name="EntryDateParameterRequired" xml:space="preserve">
-    <value>The entry date parameter is required.</value>
-  </data>
-  <data name="EntryNotCreated" xml:space="preserve">
-    <value>The entry could not be created.</value>
-  </data>
-  <data name="EntryParameterOutOfRange" xml:space="preserve">
-    <value>The entry parameter should be a whole number in the range -99999 to 99999.</value>
-  </data>
-  <data name="EntryParameterRequired" xml:space="preserve">
-    <value>The entry parameter is required.</value>
-  </data>
-  <data name="PropertyValueInvalid" xml:space="preserve">
-    <value>A parameter value is not valid.</value>
-  </data>
-  <data name="RequestNotValid" xml:space="preserve">
-    <value>The format of the request is not valid. Please see https://github.com/mintypeterson/counter.</value>
-  </data>
-  <data name="SupportInformation" xml:space="preserve">
-    <value>For more information, please see https://github.com/mintypeterson/counter.</value>
-  </data>
-  <data name="User" xml:space="preserve">
-    <value>User</value>
-  </data>
-  <data name="UserNotSynchronised" xml:space="preserve">
-    <value>The user could not be synchronised.</value>
+  <data name="UserSynchroniseUpdate" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>usersynchroniseupdate.sql;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
   </data>
 </root>

@@ -4,6 +4,11 @@
 
 namespace MintyPeterson.Counter.Api.Services.Storage
 {
+  using System.Data.SqlClient;
+  using Dapper;
+  using MintyPeterson.Counter.Api.Services.Storage.Queries;
+  using MintyPeterson.Counter.Api.Services.Storage.Results;
+
   /// <summary>
   /// Provides a <see cref="StorageService"/> using <see cref="Dapper"/>.
   /// </summary>
@@ -21,6 +26,49 @@ namespace MintyPeterson.Counter.Api.Services.Storage
     public DapperStorageService(string connectionString)
     {
       this.connectionString = connectionString;
+    }
+
+    /// <inheritdoc/>
+    public override EntryNewResult? EntryNew(EntryNewQuery query)
+    {
+      using (var connection = new SqlConnection(this.connectionString))
+      {
+        return connection.QuerySingleOrDefault<EntryNewResult>(
+          Resources.Queries.EntryNewInsert,
+          query);
+      }
+    }
+
+    /// <inheritdoc/>
+    public override UserSynchroniseResult? UserSynchronise(UserSynchroniseQuery query)
+    {
+      UserSynchroniseResult? result = null;
+
+      using (var connection = new SqlConnection(this.connectionString))
+      {
+        connection.Open();
+
+        using (var transaction = connection.BeginTransaction())
+        {
+          var numberOfRowsAffected =
+            connection.Execute(Resources.Queries.UserSynchroniseUpdate, query, transaction);
+
+          if (numberOfRowsAffected == 0)
+          {
+            numberOfRowsAffected =
+              connection.Execute(Resources.Queries.UserSynchroniseInsert, query, transaction);
+          }
+
+          transaction.Commit();
+
+          if (numberOfRowsAffected > 0)
+          {
+            result = new UserSynchroniseResult();
+          }
+        }
+      }
+
+      return result;
     }
   }
 }

@@ -79,6 +79,51 @@ namespace MintyPeterson.Counter.Api.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Entry.
+        /// </summary>
+        internal static string Entry {
+            get {
+                return ResourceManager.GetString("Entry", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The entry date parameter is required..
+        /// </summary>
+        internal static string EntryDateParameterRequired {
+            get {
+                return ResourceManager.GetString("EntryDateParameterRequired", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The entry could not be created..
+        /// </summary>
+        internal static string EntryNotCreated {
+            get {
+                return ResourceManager.GetString("EntryNotCreated", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The entry parameter should be a whole number in the range -99999 to 99999..
+        /// </summary>
+        internal static string EntryParameterOutOfRange {
+            get {
+                return ResourceManager.GetString("EntryParameterOutOfRange", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The entry parameter is required..
+        /// </summary>
+        internal static string EntryParameterRequired {
+            get {
+                return ResourceManager.GetString("EntryParameterRequired", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to A parameter value is not valid..
         /// </summary>
         internal static string PropertyValueInvalid {
@@ -88,11 +133,38 @@ namespace MintyPeterson.Counter.Api.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to For more information, please see https://github.com/mintypeterson/counter.
+        ///   Looks up a localized string similar to The format of the request is not valid. Please see https://github.com/mintypeterson/counter..
+        /// </summary>
+        internal static string RequestNotValid {
+            get {
+                return ResourceManager.GetString("RequestNotValid", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to For more information, please see https://github.com/mintypeterson/counter..
         /// </summary>
         internal static string SupportInformation {
             get {
                 return ResourceManager.GetString("SupportInformation", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to User.
+        /// </summary>
+        internal static string User {
+            get {
+                return ResourceManager.GetString("User", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The user could not be synchronised..
+        /// </summary>
+        internal static string UserNotSynchronised {
+            get {
+                return ResourceManager.GetString("UserNotSynchronised", resourceCulture);
             }
         }
     }
