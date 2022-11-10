@@ -9,5 +9,9 @@ namespace MintyPeterson.Counter.Api.Models.Responses
   /// </summary>
   public class EntryNewResponse
   {
+    /// <summary>
+    /// Gets or sets the entry identifier.
+    /// </summary>
+    public Guid EntryId { get; set; }
   }
 }
