@@ -40,6 +40,28 @@ namespace MintyPeterson.Counter.Api.Services.Storage
     }
 
     /// <inheritdoc/>
+    public override EntryGetResult? EntryGet(EntryGetQuery query)
+    {
+      using (var connection = new SqlConnection(this.connectionString))
+      {
+        return connection.QuerySingleOrDefault<EntryGetResult>(
+          Resources.Queries.EntryGetSelect,
+          query);
+      }
+    }
+
+    /// <inheritdoc/>
+    public override EntryDeleteResult? EntryDelete(EntryDeleteQuery query)
+    {
+      using (var connection = new SqlConnection(this.connectionString))
+      {
+        return connection.QuerySingleOrDefault<EntryDeleteResult>(
+          Resources.Queries.EntryDeleteUpdate,
+          query);
+      }
+    }
+
+    /// <inheritdoc/>
     public override UserSynchroniseResult? UserSynchronise(UserSynchroniseQuery query)
     {
       UserSynchroniseResult? result = null;

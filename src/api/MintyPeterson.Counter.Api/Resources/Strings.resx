@@ -129,8 +129,15 @@
   <data name="EntryDateParameterRequired" xml:space="preserve">
     <value>The entry date parameter is required.</value>
   </data>
+  <data name="EntryIdentifierParameterRequired" xml:space="preserve">
+    <value>The entry identifier parameter is required.</value>
+  </data>
   <data name="EntryNotCreated" xml:space="preserve">
     <value>The entry could not be created.</value>
+    <comment>ier </comment>
+  </data>
+  <data name="EntryNotDeleted" xml:space="preserve">
+    <value>The entry could not be deleted.</value>
   </data>
   <data name="EntryParameterOutOfRange" xml:space="preserve">
     <value>The entry parameter should be a whole number in the range -99999 to 99999.</value>

@@ -20,6 +20,20 @@ namespace MintyPeterson.Counter.Api.Services.Storage
     EntryNewResult? EntryNew(EntryNewQuery query);
 
     /// <summary>
+    /// Gets an entry.
+    /// </summary>
+    /// <param name="query">A <see cref="EntryGetQuery"/>.</param>
+    /// <returns>A <see cref="EntryGetResult"/>.</returns>
+    EntryGetResult? EntryGet(EntryGetQuery query);
+
+    /// <summary>
+    /// Deletes an entry.
+    /// </summary>
+    /// <param name="query">A <see cref="EntryDeleteQuery"/>.</param>
+    /// <returns>A <see cref="EntryDeleteResult"/>.</returns>
+    EntryDeleteResult? EntryDelete(EntryDeleteQuery query);
+
+    /// <summary>
     /// Updates or inserts a user.
     /// </summary>
     /// <param name="query">A <see cref="UserSynchroniseQuery"/>.</param>

@@ -63,11 +63,66 @@ namespace MintyPeterson.Counter.Api.Services.Storage.Resources {
         /// <summary>
         ///   Looks up a localized string similar to --
         ///-- DESCRIPTION
+        ///--   Updates an entry in the users table to mark the
+        ///--   row as deleted.
+        ///--
+        ///-- PARAMETERS
+        ///--   @EntryID - The entry identifier.
+        ///--   @DeletedDateTime - The time the entry was deleted.
+        ///--   @DeletedByUserID - The identifier of the user who deleted the entry.
+        ///--
+        ///-- OUTPUTS
+        ///--   EntryID - The identifier of the updated entry.
+        ///--
+        ///UPDATE
+        ///  Entries
+        ///SET
+        ///  Entries.DeletedDateTime = @DeletedDateTime
+        /// ,Entries.DeletedByUserID = @DeletedByUserID
+        ///OUTPUT
+        ///  Inserted.EntryID
+        ///WHERE
+        ///   [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string EntryDeleteUpdate {
+            get {
+                return ResourceManager.GetString("EntryDeleteUpdate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to --
+        ///-- DESCRIPTION
+        ///--   Selects an entry.
+        ///--
+        ///-- PARAMETERS
+        ///--   @EntryID - The entry identifier.
+        ///--
+        ///-- OUTPUTS
+        ///--   EntryID - The entry identifier.
+        ///--   CreatedDateTime - The time the entry was created.
+        ///--   CreatedByUserID - The identifer of the user who created the entry.
+        ///--   UpdatedDateTime - The time the entry was updated.
+        ///--   UpdatedByUserID - The identifer of the user who updated the entry.
+        ///--   EntryDate -  The entry date.
+        ///--   Entry - The entry.
+        ///--   Notes - Any notes or comments.
+        ///- [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string EntryGetSelect {
+            get {
+                return ResourceManager.GetString("EntryGetSelect", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to --
+        ///-- DESCRIPTION
         ///--   Inserts a new entry into the entries table.
         ///--
         ///-- PARAMETERS
         ///--   @CreatedDateTime - The time the entry was created.
-        ///--   @CreatedyUserID - The identifier of the user who created the entry.
+        ///--   @CreatedByUserID - The identifier of the user who created the entry.
         ///--   @EntryDate - The entry date.
         ///--   @Entry - The entry.
         ///--   @Notes - Any notes or comments.
@@ -79,11 +134,9 @@ namespace MintyPeterson.Counter.Api.Services.Storage.Resources {
         ///  EntryID
         /// ,CreatedDateTime
         /// ,CreatedByUserID
-        /// ,EntryDate
-        /// ,[Entry]
-        /// ,Notes
-        ///)
-        ///OUTPUT [rest of string was truncated]&quot;;.
+        /// ,UpdatedDateTime
+        /// ,UpdatedByUserID
+        /// ,E [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string EntryNewInsert {
             get {

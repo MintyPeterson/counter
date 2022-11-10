@@ -17,6 +17,11 @@ namespace MintyPeterson.Counter.Api.Policies
     public const string NewPolicy = "New Entry Policy";
 
     /// <summary>
+    /// Stores the delete policy name.
+    /// </summary>
+    public const string DeletePolicy = "Delete Entry Policy";
+
+    /// <summary>
     /// Adds policies.
     /// </summary>
     /// <param name="options">The <see cref="AuthorizationOptions"/>.</param>
@@ -25,6 +30,10 @@ namespace MintyPeterson.Counter.Api.Policies
       options.AddPolicy(
         EntryPolicies.NewPolicy,
         policy => policy.AddRequirements(new EntryNewRequirements()));
+
+      options.AddPolicy(
+        EntryPolicies.DeletePolicy,
+        policy => policy.AddRequirements(new EntryDeleteRequirements()));
     }
   }
 }

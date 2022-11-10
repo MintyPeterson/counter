@@ -97,11 +97,29 @@ namespace MintyPeterson.Counter.Api.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to The entry identifier parameter is required..
+        /// </summary>
+        internal static string EntryIdentifierParameterRequired {
+            get {
+                return ResourceManager.GetString("EntryIdentifierParameterRequired", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to The entry could not be created..
         /// </summary>
         internal static string EntryNotCreated {
             get {
                 return ResourceManager.GetString("EntryNotCreated", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The entry could not be deleted..
+        /// </summary>
+        internal static string EntryNotDeleted {
+            get {
+                return ResourceManager.GetString("EntryNotDeleted", resourceCulture);
             }
         }
         

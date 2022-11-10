@@ -140,5 +140,86 @@ namespace MintyPeterson.Counter.Api.Controllers
 
       return this.mapperService.Map<EntryNewResponse>(result);
     }
+
+    /// <summary>
+    /// Deletes an entry.
+    /// </summary>
+    /// <param name="request">A <see cref="EntryDeleteRequest"/>.</param>
+    /// <returns>An <see cref="ActionResult{EntryDeleteResponse}"/>.</returns>
+    [HttpDelete("/Entry/{EntryID:Guid?}")]
+    public async Task<ActionResult<EntryDeleteResponse>> DeleteAsync(
+      [FromRoute]EntryDeleteRequest request)
+    {
+      this.loggerService.LogInformation("DeleteAsync: Validating model state");
+
+      if (!this.ModelState.IsValid)
+      {
+        this.loggerService.LogInformation("DeleteAsync: Model state not valid");
+
+        if (this.loggerService.IsEnabled(LogLevel.Debug))
+        {
+          this.loggerService.LogInformation(
+            "DeleteAsync: State is {state}",
+            JsonSerializer.Serialize(new SerializableError(this.ModelState)));
+        }
+
+        this.ModelState.Clear();
+
+        this.ModelState.AddModelError(
+          Resources.Strings.Entry,
+          Resources.Strings.RequestNotValid);
+
+        return this.BadRequest(this.ModelState);
+      }
+
+      this.loggerService.LogInformation("DeleteAsync: Checking authorisation policy");
+
+      var requestAuthorisationResult = await this.authorisationService.AuthorizeAsync(
+        this.User, request, EntryPolicies.DeletePolicy);
+
+      if (!requestAuthorisationResult.Succeeded)
+      {
+        this.loggerService.LogInformation("DeleteAsync: Authorisation failed");
+
+        return this.Forbid();
+      }
+
+      this.loggerService.LogInformation("DeleteAsync: Validating request");
+
+      var requestValidator =
+        new EntryDeleteRequestValidator(this.storageService).Validate(request);
+
+      if (!requestValidator.IsValid)
+      {
+        this.loggerService.LogInformation("DeleteAsync: Request not valid");
+
+        return this.BadRequest(requestValidator.AsModelState());
+      }
+
+      this.loggerService.LogInformation("DeleteAsync: Deleting entry");
+
+      var query = this.mapperService.Map<EntryDeleteQuery>(request);
+      {
+        query.DeletedDateTime = DateTimeOffset.Now;
+        query.DeletedByUserId = this.User.GetSubjectIdentifier();
+      }
+
+      var result = this.storageService.EntryDelete(query);
+
+      if (result == null)
+      {
+        this.loggerService.LogInformation("DeleteAsync: Delete failed");
+
+        this.ModelState.AddModelError(
+          Resources.Strings.Entry,
+          Resources.Strings.EntryNotDeleted);
+
+        return this.BadRequest(this.ModelState);
+      }
+
+      this.loggerService.LogInformation("DeleteAsync: Building response");
+
+      return this.mapperService.Map<EntryDeleteResponse>(result);
+    }
   }
 }

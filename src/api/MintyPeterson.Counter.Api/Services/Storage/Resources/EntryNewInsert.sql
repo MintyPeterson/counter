@@ -4,7 +4,7 @@
 --
 -- PARAMETERS
 --   @CreatedDateTime - The time the entry was created.
---   @CreatedyUserID - The identifier of the user who created the entry.
+--   @CreatedByUserID - The identifier of the user who created the entry.
 --   @EntryDate - The entry date.
 --   @Entry - The entry.
 --   @Notes - Any notes or comments.
@@ -16,6 +16,8 @@ INSERT INTO Entries (
   EntryID
  ,CreatedDateTime
  ,CreatedByUserID
+ ,UpdatedDateTime
+ ,UpdatedByUserID
  ,EntryDate
  ,[Entry]
  ,Notes
@@ -24,6 +26,8 @@ OUTPUT
   Inserted.EntryID
 VALUES (
   NEWID()
+ ,@CreatedDateTime
+ ,@CreatedByUserID
  ,@CreatedDateTime
  ,@CreatedByUserID
  ,@EntryDate

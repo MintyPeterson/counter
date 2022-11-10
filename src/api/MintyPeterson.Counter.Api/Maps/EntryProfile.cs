@@ -21,6 +21,7 @@ namespace MintyPeterson.Counter.Api.Maps
     public EntryProfile()
     {
       this.MapNewAction();
+      this.MapDeleteAction();
     }
 
     /// <summary>
@@ -37,6 +38,25 @@ namespace MintyPeterson.Counter.Api.Maps
           m => m.Ignore());
 
       this.CreateMap<EntryNewResult, EntryNewResponse>();
+    }
+
+    /// <summary>
+    /// Maps <see cref="Controllers.EntryController.DeleteAsync"/>.
+    /// </summary>
+    private void MapDeleteAction()
+    {
+      this.CreateMap<EntryDeleteRequest, EntryGetQuery>();
+      this.CreateMap<EntryDeleteRequest, EntryDeleteQuery>();
+
+      this.CreateMap<EntryDeleteRequest, EntryDeleteQuery>()
+        .ForMember(
+          m => m.DeletedDateTime,
+          m => m.Ignore())
+        .ForMember(
+          m => m.DeletedByUserId,
+          m => m.Ignore());
+
+      this.CreateMap<EntryDeleteResult, EntryDeleteResponse>();
     }
   }
 }
