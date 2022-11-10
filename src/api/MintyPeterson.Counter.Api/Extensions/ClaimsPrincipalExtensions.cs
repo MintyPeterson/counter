@@ -40,6 +40,5 @@ namespace MintyPeterson.Counter.Api.Extensions
     {
       return principal.FindFirstValue(ClaimTypes.Email);
     }
-
   }
 }
