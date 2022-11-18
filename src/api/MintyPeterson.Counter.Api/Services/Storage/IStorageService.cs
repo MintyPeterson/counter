@@ -34,6 +34,13 @@ namespace MintyPeterson.Counter.Api.Services.Storage
     EntryDeleteResult? EntryDelete(EntryDeleteQuery query);
 
     /// <summary>
+    /// Lists entries.
+    /// </summary>
+    /// <param name="query">A <see cref="EntryListQuery"/>.</param>
+    /// <returns>A <see cref="EntryListResult"/>.</returns>
+    EntryListResult? EntryList(EntryListQuery query);
+
+    /// <summary>
     /// Updates or inserts a user.
     /// </summary>
     /// <param name="query">A <see cref="UserSynchroniseQuery"/>.</param>

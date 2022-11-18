@@ -22,6 +22,7 @@ namespace MintyPeterson.Counter.Api.Maps
     {
       this.MapNewAction();
       this.MapDeleteAction();
+      this.MapListAction();
     }
 
     /// <summary>
@@ -57,6 +58,16 @@ namespace MintyPeterson.Counter.Api.Maps
           m => m.Ignore());
 
       this.CreateMap<EntryDeleteResult, EntryDeleteResponse>();
+    }
+
+    /// <summary>
+    /// Maps <see cref="Controllers.EntryController.ListAsync"/>.
+    /// </summary>
+    private void MapListAction()
+    {
+      this.CreateMap<EntryListRequest, EntryListQuery>();
+      this.CreateMap<EntryListEntryResult, EntryListEntryResponse>();
+      this.CreateMap<EntryListResult, EntryListResponse>();
     }
   }
 }

@@ -62,6 +62,20 @@ namespace MintyPeterson.Counter.Api.Services.Storage
     }
 
     /// <inheritdoc/>
+    public override EntryListResult? EntryList(EntryListQuery query)
+    {
+      using (var connection = new SqlConnection(this.connectionString))
+      {
+        return new EntryListResult
+        {
+          Entries = connection.Query<EntryListEntryResult>(
+            Resources.Queries.EntryListSelect,
+            query),
+        };
+      }
+    }
+
+    /// <inheritdoc/>
     public override UserSynchroniseResult? UserSynchronise(UserSynchroniseQuery query)
     {
       UserSynchroniseResult? result = null;

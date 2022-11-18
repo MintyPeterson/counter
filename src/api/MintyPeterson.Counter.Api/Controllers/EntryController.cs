@@ -221,5 +221,74 @@ namespace MintyPeterson.Counter.Api.Controllers
 
       return this.mapperService.Map<EntryDeleteResponse>(result);
     }
+
+    /// <summary>
+    /// Lists entries.
+    /// </summary>
+    /// <param name="request">A <see cref="EntryListRequest"/>.</param>
+    /// <returns>An <see cref="ActionResult{EntryListResponse}"/>.</returns>
+    [HttpGet("/Entries")]
+    public async Task<ActionResult<EntryListResponse>> ListAsync(
+      [FromQuery]EntryListRequest request)
+    {
+      this.loggerService.LogInformation("ListAsync: Validating model state");
+
+      if (!this.ModelState.IsValid)
+      {
+        this.loggerService.LogInformation("ListAsync: Model state not valid");
+
+        if (this.loggerService.IsEnabled(LogLevel.Debug))
+        {
+          this.loggerService.LogInformation(
+            "ListAsync: State is {state}",
+            JsonSerializer.Serialize(new SerializableError(this.ModelState)));
+        }
+
+        this.ModelState.Clear();
+
+        this.ModelState.AddModelError(
+          Resources.Strings.Entry,
+          Resources.Strings.RequestNotValid);
+
+        return this.BadRequest(this.ModelState);
+      }
+
+      this.loggerService.LogInformation("ListAsync: Checking authorisation policy");
+
+      var requestAuthorisationResult = await this.authorisationService.AuthorizeAsync(
+        this.User, request, EntryPolicies.ListPolicy);
+
+      if (!requestAuthorisationResult.Succeeded)
+      {
+        this.loggerService.LogInformation("ListAsync: Authorisation failed");
+
+        return this.Forbid();
+      }
+
+      this.loggerService.LogInformation("ListAsync: Validating request");
+
+      var requestValidator =
+        new EntryListRequestValidator(this.storageService).Validate(request);
+
+      if (!requestValidator.IsValid)
+      {
+        this.loggerService.LogInformation("ListAsync: Request not valid");
+
+        return this.BadRequest(requestValidator.AsModelState());
+      }
+
+      this.loggerService.LogInformation("ListAsync: Listing entries");
+
+      var query = this.mapperService.Map<EntryListQuery>(request);
+      {
+        query.CreatedByUserId = this.User.GetSubjectIdentifier();
+      }
+
+      var result = this.storageService.EntryList(query);
+
+      this.loggerService.LogInformation("ListAsync: Building response");
+
+      return this.mapperService.Map<EntryListResponse>(result);
+    }
   }
 }

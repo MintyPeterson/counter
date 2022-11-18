@@ -118,6 +118,30 @@ namespace MintyPeterson.Counter.Api.Services.Storage.Resources {
         /// <summary>
         ///   Looks up a localized string similar to --
         ///-- DESCRIPTION
+        ///--   Selects entries.
+        ///--
+        ///-- PARAMETERS
+        ///--   @CreatedByUserID - The identifer of the user who created the entry.
+        ///--
+        ///-- OUTPUTS
+        ///--   EntryID - The entry identifier.
+        ///--   CreatedDateTime - The time the entry was created.
+        ///--   CreatedByUserID - The identifer of the user who created the entry.
+        ///--   UpdatedDateTime - The time the entry was updated.
+        ///--   UpdatedByUserID - The identifer of the user who updated the entry.
+        ///--   EntryDate -  The entry date.
+        ///--   Entry - The entry.
+        ///--   [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string EntryListSelect {
+            get {
+                return ResourceManager.GetString("EntryListSelect", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to --
+        ///-- DESCRIPTION
         ///--   Inserts a new entry into the entries table.
         ///--
         ///-- PARAMETERS
