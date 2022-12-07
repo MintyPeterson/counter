@@ -10,8 +10,8 @@ namespace MintyPeterson.Counter.Api.Models.Responses
   public class EntryListResponse
   {
     /// <summary>
-    /// Gets or sets the <see cref="IEnumerable{EntryListEntryResponse}"/>.
+    /// Gets or sets the <see cref="IEnumerable{EntryListGroupResponse}"/>.
     /// </summary>
-    public IEnumerable<EntryListEntryResponse>? Entries { get; set; }
+    public IEnumerable<EntryListGroupResponse>? Groups { get; set; }
   }
 }

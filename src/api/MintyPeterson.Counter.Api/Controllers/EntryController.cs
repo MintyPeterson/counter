@@ -288,7 +288,22 @@ namespace MintyPeterson.Counter.Api.Controllers
 
       this.loggerService.LogInformation("ListAsync: Building response");
 
-      return this.mapperService.Map<EntryListResponse>(result);
+      var response = new EntryListResponse
+      {
+        Groups =
+        result?.Entries?
+          .GroupBy(
+            e => e.EntryDate)
+          .Select(
+            g => new EntryListGroupResponse
+            {
+              Name = g.Key.ToString("d"),
+              Total = g.Sum(e => e.Entry),
+              Entries = this.mapperService.Map<IEnumerable<EntryListEntryResponse>>(g),
+            }),
+      };
+
+      return response;
     }
   }
 }
