@@ -6,6 +6,7 @@ namespace MintyPeterson.Counter.Api.Controllers
 {
   using System.Text.Json;
   using AutoMapper;
+  using FluentValidation;
   using Microsoft.AspNetCore.Authorization;
   using Microsoft.AspNetCore.Mvc;
   using MintyPeterson.Counter.Api.Extensions;
@@ -70,49 +71,15 @@ namespace MintyPeterson.Counter.Api.Controllers
     [HttpPost("/Entry")]
     public async Task<ActionResult<EntryNewResponse>> NewAsync([FromBody]EntryNewRequest request)
     {
-      this.loggerService.LogInformation("NewAsync: Validating model state");
+      var validationResult = await this.ValidateRequestAsync(
+        "NewAsync",
+        request,
+        new EntryNewRequestValidator(this.storageService),
+        EntryPolicies.NewPolicy);
 
-      if (!this.ModelState.IsValid)
+      if (validationResult is not OkResult)
       {
-        this.loggerService.LogInformation("NewAsync: Model state not valid");
-
-        if (this.loggerService.IsEnabled(LogLevel.Debug))
-        {
-          this.loggerService.LogInformation(
-            "NewAsync: State is {state}",
-            JsonSerializer.Serialize(new SerializableError(this.ModelState)));
-        }
-
-        this.ModelState.Clear();
-
-        this.ModelState.AddModelError(
-          Resources.Strings.Entry,
-          Resources.Strings.RequestNotValid);
-
-        return this.BadRequest(this.ModelState);
-      }
-
-      this.loggerService.LogInformation("NewAsync: Checking authorisation policy");
-
-      var requestAuthorisationResult = await this.authorisationService.AuthorizeAsync(
-        this.User, request, EntryPolicies.NewPolicy);
-
-      if (!requestAuthorisationResult.Succeeded)
-      {
-        this.loggerService.LogInformation("NewAsync: Authorisation failed");
-
-        return this.Forbid();
-      }
-
-      this.loggerService.LogInformation("NewAsync: Validating request");
-
-      var requestValidator = new EntryNewRequestValidator(this.storageService).Validate(request);
-
-      if (!requestValidator.IsValid)
-      {
-        this.loggerService.LogInformation("NewAsync: Request not valid");
-
-        return this.BadRequest(requestValidator.AsModelState());
+        return validationResult;
       }
 
       this.loggerService.LogInformation("NewAsync: Saving entry");
@@ -150,50 +117,15 @@ namespace MintyPeterson.Counter.Api.Controllers
     public async Task<ActionResult<EntryDeleteResponse>> DeleteAsync(
       [FromRoute]EntryDeleteRequest request)
     {
-      this.loggerService.LogInformation("DeleteAsync: Validating model state");
+      var validationResult = await this.ValidateRequestAsync(
+        "DeleteAsync",
+        request,
+        new EntryDeleteRequestValidator(this.storageService),
+        EntryPolicies.DeletePolicy);
 
-      if (!this.ModelState.IsValid)
+      if (validationResult is not OkResult)
       {
-        this.loggerService.LogInformation("DeleteAsync: Model state not valid");
-
-        if (this.loggerService.IsEnabled(LogLevel.Debug))
-        {
-          this.loggerService.LogInformation(
-            "DeleteAsync: State is {state}",
-            JsonSerializer.Serialize(new SerializableError(this.ModelState)));
-        }
-
-        this.ModelState.Clear();
-
-        this.ModelState.AddModelError(
-          Resources.Strings.Entry,
-          Resources.Strings.RequestNotValid);
-
-        return this.BadRequest(this.ModelState);
-      }
-
-      this.loggerService.LogInformation("DeleteAsync: Checking authorisation policy");
-
-      var requestAuthorisationResult = await this.authorisationService.AuthorizeAsync(
-        this.User, request, EntryPolicies.DeletePolicy);
-
-      if (!requestAuthorisationResult.Succeeded)
-      {
-        this.loggerService.LogInformation("DeleteAsync: Authorisation failed");
-
-        return this.Forbid();
-      }
-
-      this.loggerService.LogInformation("DeleteAsync: Validating request");
-
-      var requestValidator =
-        new EntryDeleteRequestValidator(this.storageService).Validate(request);
-
-      if (!requestValidator.IsValid)
-      {
-        this.loggerService.LogInformation("DeleteAsync: Request not valid");
-
-        return this.BadRequest(requestValidator.AsModelState());
+        return validationResult;
       }
 
       this.loggerService.LogInformation("DeleteAsync: Deleting entry");
@@ -231,50 +163,15 @@ namespace MintyPeterson.Counter.Api.Controllers
     public async Task<ActionResult<EntryListResponse>> ListAsync(
       [FromQuery]EntryListRequest request)
     {
-      this.loggerService.LogInformation("ListAsync: Validating model state");
+      var validationResult = await this.ValidateRequestAsync(
+        "ListAsync",
+        request,
+        new EntryListRequestValidator(this.storageService),
+        EntryPolicies.ListPolicy);
 
-      if (!this.ModelState.IsValid)
+      if (validationResult is not OkResult)
       {
-        this.loggerService.LogInformation("ListAsync: Model state not valid");
-
-        if (this.loggerService.IsEnabled(LogLevel.Debug))
-        {
-          this.loggerService.LogInformation(
-            "ListAsync: State is {state}",
-            JsonSerializer.Serialize(new SerializableError(this.ModelState)));
-        }
-
-        this.ModelState.Clear();
-
-        this.ModelState.AddModelError(
-          Resources.Strings.Entry,
-          Resources.Strings.RequestNotValid);
-
-        return this.BadRequest(this.ModelState);
-      }
-
-      this.loggerService.LogInformation("ListAsync: Checking authorisation policy");
-
-      var requestAuthorisationResult = await this.authorisationService.AuthorizeAsync(
-        this.User, request, EntryPolicies.ListPolicy);
-
-      if (!requestAuthorisationResult.Succeeded)
-      {
-        this.loggerService.LogInformation("ListAsync: Authorisation failed");
-
-        return this.Forbid();
-      }
-
-      this.loggerService.LogInformation("ListAsync: Validating request");
-
-      var requestValidator =
-        new EntryListRequestValidator(this.storageService).Validate(request);
-
-      if (!requestValidator.IsValid)
-      {
-        this.loggerService.LogInformation("ListAsync: Request not valid");
-
-        return this.BadRequest(requestValidator.AsModelState());
+        return validationResult;
       }
 
       this.loggerService.LogInformation("ListAsync: Listing entries");
@@ -315,50 +212,15 @@ namespace MintyPeterson.Counter.Api.Controllers
     public async Task<ActionResult<EntryViewResponse>> ViewAsync(
       [FromRoute]EntryViewRequest request)
     {
-      this.loggerService.LogInformation("ViewAsync: Validating model state");
+      var validationResult = await this.ValidateRequestAsync(
+        "ViewAsync",
+        request,
+        new EntryViewRequestValidator(this.storageService),
+        EntryPolicies.ViewPolicy);
 
-      if (!this.ModelState.IsValid)
+      if (validationResult is not OkResult)
       {
-        this.loggerService.LogInformation("ViewAsync: Model state not valid");
-
-        if (this.loggerService.IsEnabled(LogLevel.Debug))
-        {
-          this.loggerService.LogInformation(
-            "ViewAsync: State is {state}",
-            JsonSerializer.Serialize(new SerializableError(this.ModelState)));
-        }
-
-        this.ModelState.Clear();
-
-        this.ModelState.AddModelError(
-          Resources.Strings.Entry,
-          Resources.Strings.RequestNotValid);
-
-        return this.BadRequest(this.ModelState);
-      }
-
-      this.loggerService.LogInformation("ViewAsync: Checking authorisation policy");
-
-      var requestAuthorisationResult = await this.authorisationService.AuthorizeAsync(
-        this.User, request, EntryPolicies.ViewPolicy);
-
-      if (!requestAuthorisationResult.Succeeded)
-      {
-        this.loggerService.LogInformation("ViewAsync: Authorisation failed");
-
-        return this.Forbid();
-      }
-
-      this.loggerService.LogInformation("ViewAsync: Validating request");
-
-      var requestValidator =
-        new EntryViewRequestValidator(this.storageService).Validate(request);
-
-      if (!requestValidator.IsValid)
-      {
-        this.loggerService.LogInformation("ViewAsync: Request not valid");
-
-        return this.BadRequest(requestValidator.AsModelState());
+        return validationResult;
       }
 
       this.loggerService.LogInformation("ViewAsync: Getting entry");
@@ -379,6 +241,76 @@ namespace MintyPeterson.Counter.Api.Controllers
       this.loggerService.LogInformation("ViewAsync: Building response");
 
       return this.mapperService.Map<EntryViewResponse>(result);
+    }
+
+    /// <summary>
+    /// Validates a request against the given validator and authorisation policy.
+    /// </summary>
+    /// <typeparam name="T">The request type.</typeparam>
+    /// <param name="logIdentifier">The identifier to use when logging.</param>
+    /// <param name="request">The request to validate.</param>
+    /// <param name="requestValidator">A request validator.</param>
+    /// <param name="authorisationPolicyName">The authorisation policy name.</param>
+    /// <returns>An <see cref="ActionResult"/>. If successful, <see cref="OkResult"/>.</returns>
+    public async Task<ActionResult> ValidateRequestAsync<T>(
+      string logIdentifier,
+      T request,
+      AbstractValidator<T> requestValidator,
+      string authorisationPolicyName)
+    {
+      this.loggerService.LogInformation(
+        "{logIdentifier}: Validating model state", logIdentifier);
+
+      if (!this.ModelState.IsValid)
+      {
+        this.loggerService.LogInformation(
+          "{logIdentifier}: Model state not valid", logIdentifier);
+
+        if (this.loggerService.IsEnabled(LogLevel.Debug))
+        {
+          this.loggerService.LogInformation(
+            "{logIdentifier}: State is {state}",
+            logIdentifier,
+            JsonSerializer.Serialize(new SerializableError(this.ModelState)));
+        }
+
+        this.ModelState.Clear();
+
+        this.ModelState.AddModelError(
+          Resources.Strings.Entry,
+          Resources.Strings.RequestNotValid);
+
+        return this.BadRequest(this.ModelState);
+      }
+
+      this.loggerService.LogInformation(
+        "{logIdentifier}: Checking authorisation policy", logIdentifier);
+
+      var requestAuthorisationResult = await this.authorisationService.AuthorizeAsync(
+        this.User, request, authorisationPolicyName);
+
+      if (!requestAuthorisationResult.Succeeded)
+      {
+        this.loggerService.LogInformation(
+          "{logIdentifier}: Authorisation failed", logIdentifier);
+
+        return this.Forbid();
+      }
+
+      this.loggerService.LogInformation(
+        "{logIdentifier}: Validating request", logIdentifier);
+
+      var validationResults = requestValidator.Validate(request);
+
+      if (!validationResults.IsValid)
+      {
+        this.loggerService.LogInformation(
+          "{logIdentifier}: Request not valid", logIdentifier);
+
+        return this.BadRequest(validationResults.AsModelState());
+      }
+
+      return this.Ok();
     }
   }
 }
