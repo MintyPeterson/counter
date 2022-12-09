@@ -23,6 +23,16 @@ namespace MintyPeterson.Counter.Api.Maps
       this.MapNewAction();
       this.MapDeleteAction();
       this.MapListAction();
+      this.MapViewAction();
+    }
+
+    /// <summary>
+    /// Maps <see cref="Controllers.EntryController.ViewAsync"/>.
+    /// </summary>
+    private void MapViewAction()
+    {
+      this.CreateMap<EntryViewRequest, EntryGetQuery>();
+      this.CreateMap<EntryGetResult, EntryViewResponse>();
     }
 
     /// <summary>

@@ -124,6 +124,15 @@ namespace MintyPeterson.Counter.Api.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to The entry could not be found..
+        /// </summary>
+        internal static string EntryNotFound {
+            get {
+                return ResourceManager.GetString("EntryNotFound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to The entry parameter should be a whole number in the range -99999 to 99999..
         /// </summary>
         internal static string EntryParameterOutOfRange {

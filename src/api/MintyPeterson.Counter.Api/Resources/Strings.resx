@@ -139,6 +139,9 @@
   <data name="EntryNotDeleted" xml:space="preserve">
     <value>The entry could not be deleted.</value>
   </data>
+  <data name="EntryNotFound" xml:space="preserve">
+    <value>The entry could not be found.</value>
+  </data>
   <data name="EntryParameterOutOfRange" xml:space="preserve">
     <value>The entry parameter should be a whole number in the range -99999 to 99999.</value>
   </data>

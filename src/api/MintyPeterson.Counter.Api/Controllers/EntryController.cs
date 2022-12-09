@@ -305,5 +305,80 @@ namespace MintyPeterson.Counter.Api.Controllers
 
       return response;
     }
+
+    /// <summary>
+    /// Views an entry.
+    /// </summary>
+    /// <param name="request">A <see cref="EntryViewRequest"/>.</param>
+    /// <returns>An <see cref="ActionResult{EntryViewResponse}"/>.</returns>
+    [HttpGet("/Entry/{EntryID:Guid?}")]
+    public async Task<ActionResult<EntryViewResponse>> ViewAsync(
+      [FromRoute]EntryViewRequest request)
+    {
+      this.loggerService.LogInformation("ViewAsync: Validating model state");
+
+      if (!this.ModelState.IsValid)
+      {
+        this.loggerService.LogInformation("ViewAsync: Model state not valid");
+
+        if (this.loggerService.IsEnabled(LogLevel.Debug))
+        {
+          this.loggerService.LogInformation(
+            "ViewAsync: State is {state}",
+            JsonSerializer.Serialize(new SerializableError(this.ModelState)));
+        }
+
+        this.ModelState.Clear();
+
+        this.ModelState.AddModelError(
+          Resources.Strings.Entry,
+          Resources.Strings.RequestNotValid);
+
+        return this.BadRequest(this.ModelState);
+      }
+
+      this.loggerService.LogInformation("ViewAsync: Checking authorisation policy");
+
+      var requestAuthorisationResult = await this.authorisationService.AuthorizeAsync(
+        this.User, request, EntryPolicies.ViewPolicy);
+
+      if (!requestAuthorisationResult.Succeeded)
+      {
+        this.loggerService.LogInformation("ViewAsync: Authorisation failed");
+
+        return this.Forbid();
+      }
+
+      this.loggerService.LogInformation("ViewAsync: Validating request");
+
+      var requestValidator =
+        new EntryViewRequestValidator(this.storageService).Validate(request);
+
+      if (!requestValidator.IsValid)
+      {
+        this.loggerService.LogInformation("ViewAsync: Request not valid");
+
+        return this.BadRequest(requestValidator.AsModelState());
+      }
+
+      this.loggerService.LogInformation("ViewAsync: Getting entry");
+
+      var result = this.storageService.EntryGet(this.mapperService.Map<EntryGetQuery>(request));
+
+      if (result == null)
+      {
+        this.loggerService.LogInformation("ViewAsync: Get failed");
+
+        this.ModelState.AddModelError(
+          Resources.Strings.Entry,
+          Resources.Strings.EntryNotFound);
+
+        return this.BadRequest(this.ModelState);
+      }
+
+      this.loggerService.LogInformation("ViewAsync: Building response");
+
+      return this.mapperService.Map<EntryViewResponse>(result);
+    }
   }
 }
