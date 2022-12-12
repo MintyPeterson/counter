@@ -25,6 +25,9 @@ namespace MintyPeterson.Counter.Api.Services.Storage
     public abstract EntryListResult? EntryList(EntryListQuery query);
 
     /// <inheritdoc/>
+    public abstract EntryEditResult? EntryEdit(EntryEditQuery query);
+
+    /// <inheritdoc/>
     public abstract UserSynchroniseResult? UserSynchronise(UserSynchroniseQuery query);
   }
 }

@@ -88,6 +88,15 @@ namespace MintyPeterson.Counter.Api.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to EntryDate.
+        /// </summary>
+        internal static string EntryDate {
+            get {
+                return ResourceManager.GetString("EntryDate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to The entry date parameter is required..
         /// </summary>
         internal static string EntryDateParameterRequired {
@@ -129,6 +138,15 @@ namespace MintyPeterson.Counter.Api.Resources {
         internal static string EntryNotFound {
             get {
                 return ResourceManager.GetString("EntryNotFound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The entry could not be updated..
+        /// </summary>
+        internal static string EntryNotUpdated {
+            get {
+                return ResourceManager.GetString("EntryNotUpdated", resourceCulture);
             }
         }
         

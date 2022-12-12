@@ -32,6 +32,11 @@ namespace MintyPeterson.Counter.Api.Policies
     public const string ViewPolicy = "View Entry Policy";
 
     /// <summary>
+    /// Stores the edit policy name.
+    /// </summary>
+    public const string EditPolicy = "Edit Entry Policy";
+
+    /// <summary>
     /// Adds policies.
     /// </summary>
     /// <param name="options">The <see cref="AuthorizationOptions"/>.</param>
@@ -52,6 +57,10 @@ namespace MintyPeterson.Counter.Api.Policies
       options.AddPolicy(
         EntryPolicies.ViewPolicy,
         policy => policy.AddRequirements(new EntryViewRequirements()));
+
+      options.AddPolicy(
+        EntryPolicies.EditPolicy,
+        policy => policy.AddRequirements(new EntryEditRequirements()));
     }
   }
 }

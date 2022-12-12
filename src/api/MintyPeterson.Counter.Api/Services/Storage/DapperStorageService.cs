@@ -76,6 +76,17 @@ namespace MintyPeterson.Counter.Api.Services.Storage
     }
 
     /// <inheritdoc/>
+    public override EntryEditResult? EntryEdit(EntryEditQuery query)
+    {
+      using (var connection = new SqlConnection(this.connectionString))
+      {
+        return connection.QuerySingleOrDefault<EntryEditResult>(
+          Resources.Queries.EntryEditUpdate,
+          query);
+      }
+    }
+
+    /// <inheritdoc/>
     public override UserSynchroniseResult? UserSynchronise(UserSynchroniseQuery query)
     {
       UserSynchroniseResult? result = null;

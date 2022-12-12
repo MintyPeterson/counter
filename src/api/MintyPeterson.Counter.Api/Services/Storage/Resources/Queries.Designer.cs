@@ -63,7 +63,7 @@ namespace MintyPeterson.Counter.Api.Services.Storage.Resources {
         /// <summary>
         ///   Looks up a localized string similar to --
         ///-- DESCRIPTION
-        ///--   Updates an entry in the users table to mark the
+        ///--   Updates an entry in the entries table to mark the
         ///--   row as deleted.
         ///--
         ///-- PARAMETERS
@@ -82,11 +82,39 @@ namespace MintyPeterson.Counter.Api.Services.Storage.Resources {
         ///OUTPUT
         ///  Inserted.EntryID
         ///WHERE
-        ///   [rest of string was truncated]&quot;;.
+        /// [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string EntryDeleteUpdate {
             get {
                 return ResourceManager.GetString("EntryDeleteUpdate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to --
+        ///-- DESCRIPTION
+        ///--   Updates an entry in the entries table.
+        ///--
+        ///-- PARAMETERS
+        ///--   @EntryID - The entry identifier.
+        ///--   @UpdatedDateTime - The time the entry was created.
+        ///--   @UpdatedByUserID - The identifier of the user who created the entry.
+        ///--   @EntryDate - The entry date.
+        ///--   @Entry - The entry.
+        ///--   @Notes - Any notes or comments.
+        ///--
+        ///-- OUTPUTS
+        ///--   EntryID - The identifier of the updated entry.
+        ///--
+        ///UPDATE
+        ///  Entries
+        ///SET
+        ///  Entries.UpdatedDateTime = @UpdatedDateTime
+        /// ,Entries.Updat [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string EntryEditUpdate {
+            get {
+                return ResourceManager.GetString("EntryEditUpdate", resourceCulture);
             }
         }
         

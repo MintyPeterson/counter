@@ -126,6 +126,9 @@
   <data name="Entry" xml:space="preserve">
     <value>Entry</value>
   </data>
+  <data name="EntryDate" xml:space="preserve">
+    <value>EntryDate</value>
+  </data>
   <data name="EntryDateParameterRequired" xml:space="preserve">
     <value>The entry date parameter is required.</value>
   </data>
@@ -141,6 +144,9 @@
   </data>
   <data name="EntryNotFound" xml:space="preserve">
     <value>The entry could not be found.</value>
+  </data>
+  <data name="EntryNotUpdated" xml:space="preserve">
+    <value>The entry could not be updated.</value>
   </data>
   <data name="EntryParameterOutOfRange" xml:space="preserve">
     <value>The entry parameter should be a whole number in the range -99999 to 99999.</value>

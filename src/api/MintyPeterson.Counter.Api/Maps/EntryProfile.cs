@@ -24,6 +24,25 @@ namespace MintyPeterson.Counter.Api.Maps
       this.MapDeleteAction();
       this.MapListAction();
       this.MapViewAction();
+      this.MapEditAction();
+    }
+
+    /// <summary>
+    /// Maps <see cref="Controllers.EntryController.EditAsync"/>.
+    /// </summary>
+    private void MapEditAction()
+    {
+      this.CreateMap<EntryEditRequest, EntryGetQuery>();
+
+      this.CreateMap<EntryEditRequestBody, EntryEditQuery>()
+        .ForMember(
+          m => m.UpdatedDateTime,
+          m => m.Ignore())
+        .ForMember(
+          m => m.UpdatedByUserId,
+          m => m.Ignore());
+
+      this.CreateMap<EntryEditResult, EntryEditResponse>();
     }
 
     /// <summary>

@@ -244,6 +244,52 @@ namespace MintyPeterson.Counter.Api.Controllers
     }
 
     /// <summary>
+    /// Updates an entry.
+    /// </summary>
+    /// <param name="request">A <see cref="EntryEditRequest"/>.</param>
+    /// <returns>An <see cref="ActionResult{EntryEditResponse}"/>.</returns>
+    [HttpPut("/Entry/{EntryID:Guid?}")]
+    public async Task<ActionResult<EntryEditResponse>> EditAsync(EntryEditRequest request)
+    {
+      var validationResult = await this.ValidateRequestAsync(
+        "EditAsync",
+        request,
+        new EntryEditRequestValidator(this.storageService),
+        EntryPolicies.EditPolicy);
+
+      if (validationResult is not OkResult)
+      {
+        return validationResult;
+      }
+
+      this.loggerService.LogInformation("EditAsync: Updating entry");
+
+      var query = this.mapperService.Map<EntryEditQuery>(request.Body);
+      {
+        query.EntryID = request.EntryId!.Value;
+        query.UpdatedDateTime = DateTimeOffset.Now;
+        query.UpdatedByUserId = this.User.GetSubjectIdentifier();
+      }
+
+      var result = this.storageService.EntryEdit(query);
+
+      if (result == null)
+      {
+        this.loggerService.LogInformation("EditAsync: Update failed");
+
+        this.ModelState.AddModelError(
+          Resources.Strings.Entry,
+          Resources.Strings.EntryNotUpdated);
+
+        return this.BadRequest(this.ModelState);
+      }
+
+      this.loggerService.LogInformation("EditAsync: Building response");
+
+      return this.mapperService.Map<EntryEditResponse>(result);
+    }
+
+    /// <summary>
     /// Validates a request against the given validator and authorisation policy.
     /// </summary>
     /// <typeparam name="T">The request type.</typeparam>
