@@ -76,7 +76,6 @@ namespace MintyPeterson.Counter.Api.Maps
     private void MapDeleteAction()
     {
       this.CreateMap<EntryDeleteRequest, EntryGetQuery>();
-      this.CreateMap<EntryDeleteRequest, EntryDeleteQuery>();
 
       this.CreateMap<EntryDeleteRequest, EntryDeleteQuery>()
         .ForMember(
