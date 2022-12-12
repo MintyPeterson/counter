@@ -42,7 +42,7 @@ class _AddEntryPageState extends State<AddEntryPage> {
     _notesController = TextEditingController();
     _entryController = TextEditingController();
     SchedulerBinding.instance.addPostFrameCallback((_) {
-      _setEntryDateTextControllerValue(entryDate);
+      _setEntryDateTextControllerValue();
     });
   }
 
@@ -79,7 +79,7 @@ class _AddEntryPageState extends State<AddEntryPage> {
                   );
                   if (selectedDate != null && selectedDate != entryDate) {
                     entryDate = selectedDate;
-                    _setEntryDateTextControllerValue(entryDate);
+                    _setEntryDateTextControllerValue();
                   }
                 },
                 child: AbsorbPointer(
@@ -138,7 +138,7 @@ class _AddEntryPageState extends State<AddEntryPage> {
     );
   }
 
-  void _setEntryDateTextControllerValue(DateTime value) {
+  void _setEntryDateTextControllerValue() {
     _entryDateController.text =
       DateFormat.yMMMd(Localizations.localeOf(context).languageCode).format(entryDate);
   }
