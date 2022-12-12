@@ -1,4 +1,5 @@
 import 'package:counter/pages/add_entry/add_entry_page.dart';
+import 'package:counter/pages/edit_entry/edit_entry_page.dart';
 import 'package:counter/pages/sign_in/sign_in_page.dart';
 import 'package:counter/pages/summary/summary_view_model.dart';
 import 'package:counter/services/counter/responses/entry_list_entry_response.dart';
@@ -79,7 +80,7 @@ class _SummaryPageState extends State<SummaryPage> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: <Widget>[
-                      Text(TextLocalizations.of(context).retryInstructions),
+                      Text(TextLocalizations.of(context).retryLoadEntries),
                       const SizedBox(height: 20),
                       ElevatedButton(
                         onPressed: () async {
@@ -170,6 +171,9 @@ class _SummaryPageState extends State<SummaryPage> {
               Text(entry.entry.toString()),
             ],
           ),
+          onTap: () async {
+            await _editEntry(entry.entryId);
+          },
         ),
       );
     }
@@ -187,6 +191,15 @@ class _SummaryPageState extends State<SummaryPage> {
 
   Future<void> _addEntry() async {
     final bool? result = (await Navigator.of(context).pushNamed(AddEntryPage.route)) as bool?;
+    if (result ?? false) {
+      await widget.viewModel.refreshEntryList();
+    }
+  }
+
+  Future<void> _editEntry(String entryId) async {
+    final bool? result = (
+      await Navigator.of(context).pushNamed(EditEntryPage.route, arguments: entryId)
+    ) as bool?;
     if (result ?? false) {
       await widget.viewModel.refreshEntryList();
     }

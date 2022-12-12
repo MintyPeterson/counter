@@ -17,7 +17,9 @@ class TextLocalizations {
       'addEntryFailed': 'Your entry could not be added. Please try again.',
       'counter': 'Counter',
       'date': 'Date',
+      'deleteEntryFailed': 'Your entry could not be deleted. Please try again.',
       'entry': 'Entry',
+      'loadingEntry': 'Loading entry...',
       'loadingEntries': 'Loading your entries...',
       'mustBeWholeNumber': 'Must be a whole number',
       'noEntriesToDisplay': 'There are no entries to display.',
@@ -25,7 +27,8 @@ class TextLocalizations {
       'ok': 'OK',
       'refresh': 'Refresh',
       'retry': 'Retry',
-      'retryInstructions': 'Your entries could not be loaded. Please try again.',
+      'retryLoadEntries': 'Your entries could not be loaded. Please try again.',
+      'retryLoadEntry': 'Your entry could not be loaded. Please try again.',
       'required': 'Required',
       'sessionExpired': 'Your session has expired. Please sign in.',
       'signIn': 'Sign in',
@@ -33,6 +36,8 @@ class TextLocalizations {
       'signInInstructions': 'Sign in to get started.',
       'signOut': 'Sign out',
       'untitledEntry': 'Untitled',
+      'updateEntry': 'Update entry',
+      'updateEntryFailed': 'Your entry could not be updated. Please try again.',
       'welcome': 'Welcome',
     },
   };
@@ -55,8 +60,16 @@ class TextLocalizations {
     return _localizedValues[locale.languageCode]!['date']!;
   }
 
+  String get deleteEntryFailed {
+    return _localizedValues[locale.languageCode]!['deleteEntryFailed']!;
+  }
+
   String get entry {
     return _localizedValues[locale.languageCode]!['entry']!;
+  }
+
+  String get loadingEntry {
+    return _localizedValues[locale.languageCode]!['loadingEntry']!;
   }
 
   String get loadingEntries {
@@ -91,8 +104,12 @@ class TextLocalizations {
     return _localizedValues[locale.languageCode]!['retry']!;
   }
 
-  String get retryInstructions {
-    return _localizedValues[locale.languageCode]!['retryInstructions']!;
+  String get retryLoadEntries {
+    return _localizedValues[locale.languageCode]!['retryLoadEntries']!;
+  }
+
+  String get retryLoadEntry {
+    return _localizedValues[locale.languageCode]!['retryLoadEntry']!;
   }
 
   String get sessionExpired {
@@ -113,6 +130,14 @@ class TextLocalizations {
 
   String get signOut {
     return _localizedValues[locale.languageCode]!['signOut']!;
+  }
+
+  String get updateEntry {
+    return _localizedValues[locale.languageCode]!['updateEntry']!;
+  }
+
+  String get updateEntryFailed {
+    return _localizedValues[locale.languageCode]!['updateEntryFailed']!;
   }
 
   String get untitledEntry {

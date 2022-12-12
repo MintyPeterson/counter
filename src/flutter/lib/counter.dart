@@ -1,5 +1,7 @@
 import 'package:counter/pages/add_entry/add_entry_page.dart';
 import 'package:counter/pages/add_entry/add_entry_view_model.dart';
+import 'package:counter/pages/edit_entry/edit_entry_page.dart';
+import 'package:counter/pages/edit_entry/edit_entry_view_model.dart';
 import 'package:counter/pages/sign_in/sign_in_page.dart';
 import 'package:counter/pages/sign_in/sign_in_view_model.dart';
 import 'package:counter/pages/summary/summary_page.dart';
@@ -54,6 +56,14 @@ class Counter extends StatelessWidget {
                     AddEntryPage(viewModel),
               ),
             );
+          case EditEntryPage.route:
+            final String entryId = settings.arguments as String;
+            return MaterialPageRoute(
+              builder: (_) => Consumer<EditEntryViewModel>(
+                builder: (_, EditEntryViewModel viewModel, __) =>
+                  EditEntryPage(entryId, viewModel),
+                ),
+              );
         }
         return null;
       },
