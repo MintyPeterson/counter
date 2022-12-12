@@ -1,6 +1,6 @@
 ﻿--
 -- DESCRIPTION
---   Updates an entry in the users table to mark the
+--   Updates an entry in the entries table to mark the
 --   row as deleted.
 --
 -- PARAMETERS
