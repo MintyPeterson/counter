@@ -1,2 +1,5 @@
 # Counter
-A cross-platform application for keeping count.
+An application for keeping count.
+
+## Status
+This project is in closed testing.
