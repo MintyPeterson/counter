@@ -26,12 +26,17 @@ if (flutterMinSdkVersion == null) {
     flutterMinSdkVersion = '18'
 }
 
+def fluttercompileSdkVersion = localProperties.getProperty('flutter.compileSdkVersion')
+if (fluttercompileSdkVersion == null) {
+    fluttercompileSdkVersion = '33'
+}
+
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply from: "$flutterRoot/packages/flutter_tools/gradle/flutter.gradle"
 
 android {
-    compileSdkVersion flutter.compileSdkVersion
+    compileSdkVersion fluttercompileSdkVersion.toInteger()
     ndkVersion flutter.ndkVersion
 
     compileOptions {
