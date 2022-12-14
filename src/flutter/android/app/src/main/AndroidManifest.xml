@@ -1,5 +1,6 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="uk.drtomcook.counter">
+   <uses-permission android:name="android.permission.INTERNET" />
    <application
         android:label="Counter"
         android:name="${applicationName}"
