@@ -47,7 +47,14 @@ class EditEntryViewModel extends ChangeNotifier {
   }
 
   Future<void> deleteEntry(EntryDeleteRequest entry) async {
+    try {
+      _editingEntry = true;
+      notifyListeners();
     await counterService.entryDelete(entry);
+    } finally {
+      _editingEntry = false;
+      notifyListeners();
+    }
   }
 
   Future<void> signOut() {
