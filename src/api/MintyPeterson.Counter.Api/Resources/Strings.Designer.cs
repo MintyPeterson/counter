@@ -61,7 +61,7 @@ namespace MintyPeterson.Counter.Api.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Counter.
+        ///   Looks up a localized string similar to Counter API.
         /// </summary>
         internal static string DefaultProductName {
             get {
