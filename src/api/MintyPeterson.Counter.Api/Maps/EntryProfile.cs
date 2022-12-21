@@ -36,6 +36,9 @@ namespace MintyPeterson.Counter.Api.Maps
 
       this.CreateMap<EntryEditRequestBody, EntryEditQuery>()
         .ForMember(
+          m => m.EntryID,
+          m => m.Ignore())
+        .ForMember(
           m => m.UpdatedDateTime,
           m => m.Ignore())
         .ForMember(
@@ -93,9 +96,17 @@ namespace MintyPeterson.Counter.Api.Maps
     /// </summary>
     private void MapListAction()
     {
-      this.CreateMap<EntryListRequest, EntryListQuery>();
+      this.CreateMap<EntryListRequest, EntryListQuery>()
+        .ForMember(
+          m => m.CreatedByUserId,
+          m => m.Ignore());
+
       this.CreateMap<EntryListEntryResult, EntryListEntryResponse>();
-      this.CreateMap<EntryListResult, EntryListResponse>();
+
+      this.CreateMap<EntryListResult, EntryListResponse>()
+        .ForMember(
+          m => m.Groups,
+          m => m.Ignore());
     }
   }
 }
