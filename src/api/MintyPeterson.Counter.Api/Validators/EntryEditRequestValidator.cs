@@ -33,22 +33,18 @@ namespace MintyPeterson.Counter.Api.Validators
           Resources.Strings.EntryIdentifierParameterRequired);
 
       this.RuleFor(
-        r => r.Body!.EntryDate)
+        r => r.Body.EntryDate)
         .NotEmpty()
-        .When(
-          r => r.Body != null)
         .WithMessage(
           Resources.Strings.EntryDateParameterRequired)
       .OverridePropertyName(
         Resources.Strings.EntryDate);
 
       this.RuleFor(
-        r => r.Body!.Entry)
+        r => r.Body.Entry)
         .Cascade(
           CascadeMode.Stop)
         .NotNull()
-        .When(
-          r => r.Body != null)
         .WithMessage(
           Resources.Strings.EntryParameterRequired)
         .ScalePrecision(

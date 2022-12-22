@@ -12,6 +12,14 @@ namespace MintyPeterson.Counter.Api.Models.Requests
   public class EntryEditRequest
   {
     /// <summary>
+    /// Initializes a new instance of the <see cref="EntryEditRequest"/> class.
+    /// </summary>
+    public EntryEditRequest()
+    {
+      this.Body = new EntryEditRequestBody();
+    }
+
+    /// <summary>
     /// Gets or sets the entry identifier.
     /// </summary>
     [FromRoute]
@@ -21,6 +29,6 @@ namespace MintyPeterson.Counter.Api.Models.Requests
     /// Gets or sets the <see cref="EntryEditRequestBody"/>.
     /// </summary>
     [FromBody]
-    public EntryEditRequestBody? Body { get; set; }
+    public EntryEditRequestBody Body { get; set; }
   }
 }
