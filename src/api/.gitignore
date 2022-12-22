@@ -15,6 +15,9 @@
 # Production configuration files
 [Aa]pp[Ss]ettings.[Pp]roduction.json
 
+# Test configuration files
+[Tt]est[Ss]ettings.[Tt]est.json
+
 # User-specific files
 *.suo
 *.user
