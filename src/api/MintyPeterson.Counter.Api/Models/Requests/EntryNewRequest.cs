@@ -24,5 +24,10 @@ namespace MintyPeterson.Counter.Api.Models.Requests
     /// Gets or sets the notes.
     /// </summary>
     public string? Notes { get; set; }
+
+    /// <summary>
+    /// Gets or sets a value indicating if the entry is an estimate or not.
+    /// </summary>
+    public bool? IsEstimate { get; set; }
   }
 }

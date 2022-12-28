@@ -14,6 +14,7 @@
 --   EntryDate -  The entry date.
 --   Entry - The entry.
 --   Notes - Any notes or comments.
+--   IsEstimate - A value indicating whether the entry is an estimate or not.
 --
 SELECT
   Entries.EntryID
@@ -24,6 +25,7 @@ SELECT
  ,Entries.EntryDate
  ,Entries.[Entry]
  ,Entries.Notes
+ ,Entries.IsEstimate
 FROM
   Entries
 WHERE

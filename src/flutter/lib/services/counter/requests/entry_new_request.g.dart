@@ -11,4 +11,5 @@ Map<String, dynamic> _$EntryNewRequestToJson(EntryNewRequest instance) =>
       'entryDate': instance.entryDate.toIso8601String(),
       'entry': instance.entry,
       'notes': instance.notes,
+      'isEstimate': instance.isEstimate,
     };

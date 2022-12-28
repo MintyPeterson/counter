@@ -71,6 +71,13 @@ namespace MintyPeterson.Counter.Api.Tests.Integration.Functions.Entry
       this.responseContent!.Groups!.Last().Total.Should().Be(30);
 
     /// <summary>
+    /// Tests if a group total has an estimate indicator.
+    /// </summary>
+    [Fact]
+    public void GroupEstimateIndicatorShouldBePopulated() =>
+      this.responseContent!.Groups!.First().IsEstimate.Should().Be(true);
+
+    /// <summary>
     /// Tests if an entry has a value.
     /// </summary>
     [Fact]
@@ -83,6 +90,13 @@ namespace MintyPeterson.Counter.Api.Tests.Integration.Functions.Entry
     [Fact]
     public void EntryNotesShouldBePopulated() =>
       this.responseContent!.Groups!.First().Entries!.First().Notes.Should().Be("Thirty");
+
+    /// <summary>
+    /// Tests if an entry has an estimate indicator.
+    /// </summary>
+    [Fact]
+    public void EntryEstimateIndicatorShouldBePopulated() =>
+      this.responseContent!.Groups!.First().Entries!.First().IsEstimate.Should().Be(true);
 
     /// <inheritdoc/>
     public override Task InitializeAsync()
@@ -126,11 +140,12 @@ namespace MintyPeterson.Counter.Api.Tests.Integration.Functions.Entry
            ,EntryDate
            ,Entry
            ,Notes
+           ,IsEstimate
           )
           VALUES
-            (NEWID(), @CurrentDateTime, @UserID, @CurrentDateTime, @UserID, DATEADD(DAY, -2, @CurrentDate), '10', 'Ten')
-           ,(NEWID(), @CurrentDateTime, @UserID, @CurrentDateTime, @UserID, DATEADD(DAY, -2, @CurrentDate), '20', 'Twenty')
-           ,(NEWID(), @CurrentDateTime, @UserID, @CurrentDateTime, @UserID, DATEADD(DAY, -1, @CurrentDate), '30', 'Thirty')
+            (NEWID(), @CurrentDateTime, @UserID, @CurrentDateTime, @UserID, DATEADD(DAY, -2, @CurrentDate), '10', 'Ten', 0)
+           ,(NEWID(), @CurrentDateTime, @UserID, @CurrentDateTime, @UserID, DATEADD(DAY, -2, @CurrentDate), '20', 'Twenty', 0)
+           ,(NEWID(), @CurrentDateTime, @UserID, @CurrentDateTime, @UserID, DATEADD(DAY, -1, @CurrentDate), '30', 'Thirty', 1)
         ");
 
       this.response = await this.Client.GetAsync("/Entries");

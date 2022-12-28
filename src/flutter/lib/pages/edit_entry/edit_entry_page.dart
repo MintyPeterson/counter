@@ -38,6 +38,7 @@ class _EditEntryPageState extends State<EditEntryPage> {
   late TextEditingController _entryController;
 
   DateTime entryDate = DateTime.now();
+  bool isEstimate = false;
 
   @override
   void initState() {
@@ -50,6 +51,7 @@ class _EditEntryPageState extends State<EditEntryPage> {
     )).then((value) {
       if (value != null) {
         entryDate = value.entryDate;
+        isEstimate = value.isEstimate;
         _setEntryDateTextControllerValue();
         _entryController.text = value.entry.toString();
         _notesController.text = value.notes ?? '';
@@ -170,6 +172,18 @@ class _EditEntryPageState extends State<EditEntryPage> {
                           labelText: TextLocalizations.of(context).notes
                         ),
                       ),
+                      CheckboxListTile(
+                        enabled: !widget.viewModel.updatingEntry,
+                        controlAffinity: ListTileControlAffinity.leading,
+                        contentPadding: const EdgeInsets.fromLTRB(0, 10, 0, 10),
+                        value: isEstimate,
+                        onChanged: (bool? value) {
+                          setState(() {
+                            isEstimate = value!;
+                          });
+                        },
+                        title: Text(TextLocalizations.of(context).isEstimate),
+                      ),
                       if (widget.viewModel.updatingEntry) ...const <Widget>[
                         SizedBox(height: 32),
                         CircularProgressIndicator(),
@@ -226,7 +240,8 @@ class _EditEntryPageState extends State<EditEntryPage> {
           entryId: widget.entryId,
           entryDate: entryDate,
           notes: _notesController.text.trim().isEmpty ? null : _notesController.text.trim(),
-          entry: int.parse(_entryController.text)
+          entry: int.parse(_entryController.text),
+          isEstimate: isEstimate,
         );
         await widget.viewModel.editEntry(item);
         if (!mounted) {

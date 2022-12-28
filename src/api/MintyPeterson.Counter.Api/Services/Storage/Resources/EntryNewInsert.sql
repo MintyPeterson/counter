@@ -8,6 +8,7 @@
 --   @EntryDate - The entry date.
 --   @Entry - The entry.
 --   @Notes - Any notes or comments.
+--   @IsEstimate - A value indicating whether the entry is an estimate or not.
 --
 -- OUTPUTS
 --   EntryID - The identifier of the newly created entry.
@@ -21,6 +22,7 @@ INSERT INTO Entries (
  ,EntryDate
  ,[Entry]
  ,Notes
+ ,IsEstimate
 )
 OUTPUT
   Inserted.EntryID
@@ -33,4 +35,5 @@ VALUES (
  ,@EntryDate
  ,@Entry
  ,@Notes
+ ,@IsEstimate
 )

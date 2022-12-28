@@ -11,11 +11,13 @@ class EntryViewResponse {
   final DateTime entryDate;
   final int entry;
   final String? notes;
+  final bool isEstimate;
   const EntryViewResponse({
     required this.entryId,
     required this.entryDate,
     required this.entry,
     required this.notes,
+    required this.isEstimate,
   });
 
   factory EntryViewResponse.fromJson(Map<String, dynamic> json) =>

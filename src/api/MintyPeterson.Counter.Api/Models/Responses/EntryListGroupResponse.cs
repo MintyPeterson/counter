@@ -20,6 +20,11 @@ namespace MintyPeterson.Counter.Api.Models.Responses
     public decimal Total { get; set; }
 
     /// <summary>
+    /// Gets or sets a value indicating whether the total is an estimate or not.
+    /// </summary>
+    public bool IsEstimate { get; set; }
+
+    /// <summary>
     /// Gets or sets the <see cref="IEnumerable{EntryListEntryResponse}"/>.
     /// </summary>
     public IEnumerable<EntryListEntryResponse>? Entries { get; set; }

@@ -10,10 +10,12 @@ class EntryNewRequest {
   final DateTime entryDate;
   final int entry;
   final String? notes;
+  final bool? isEstimate;
   const EntryNewRequest({
     required this.entryDate,
     required this.entry,
     this.notes,
+    this.isEstimate,
   });
 
   Map<String, dynamic> toJson() => _$EntryNewRequestToJson(this);

@@ -102,15 +102,12 @@ namespace MintyPeterson.Counter.Api.Services.Storage.Resources {
         ///--   @EntryDate - The entry date.
         ///--   @Entry - The entry.
         ///--   @Notes - Any notes or comments.
+        ///--   @IsEstimate - A value indicating whether the entry is an estimate or not.
         ///--
         ///-- OUTPUTS
         ///--   EntryID - The identifier of the updated entry.
         ///--
-        ///UPDATE
-        ///  Entries
-        ///SET
-        ///  Entries.UpdatedDateTime = @UpdatedDateTime
-        /// ,Entries.Updat [rest of string was truncated]&quot;;.
+        ///UPDAT [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string EntryEditUpdate {
             get {
@@ -178,17 +175,13 @@ namespace MintyPeterson.Counter.Api.Services.Storage.Resources {
         ///--   @EntryDate - The entry date.
         ///--   @Entry - The entry.
         ///--   @Notes - Any notes or comments.
+        ///--   @IsEstimate - A value indicating whether the entry is an estimate or not.
         ///--
         ///-- OUTPUTS
         ///--   EntryID - The identifier of the newly created entry.
         ///--
         ///INSERT INTO Entries (
-        ///  EntryID
-        /// ,CreatedDateTime
-        /// ,CreatedByUserID
-        /// ,UpdatedDateTime
-        /// ,UpdatedByUserID
-        /// ,E [rest of string was truncated]&quot;;.
+        ///  EntryID        /// [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string EntryNewInsert {
             get {

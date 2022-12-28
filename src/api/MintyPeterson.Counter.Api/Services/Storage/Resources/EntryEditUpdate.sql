@@ -9,6 +9,7 @@
 --   @EntryDate - The entry date.
 --   @Entry - The entry.
 --   @Notes - Any notes or comments.
+--   @IsEstimate - A value indicating whether the entry is an estimate or not.
 --
 -- OUTPUTS
 --   EntryID - The identifier of the updated entry.
@@ -21,6 +22,7 @@ SET
  ,Entries.EntryDate = @EntryDate
  ,Entries.[Entry] = @Entry
  ,Entries.Notes = @Notes
+ ,Entries.IsEstimate = @IsEstimate
 OUTPUT
   Inserted.EntryID
 WHERE

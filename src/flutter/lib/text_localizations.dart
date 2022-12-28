@@ -19,6 +19,7 @@ class TextLocalizations {
       'date': 'Date',
       'deleteEntryFailed': 'Your entry could not be deleted. Please try again.',
       'entry': 'Entry',
+      'isEstimate': 'Estimate',
       'loadingEntry': 'Loading entry...',
       'loadingEntries': 'Loading your entries...',
       'mustBeWholeNumber': 'Must be a whole number',
@@ -66,6 +67,10 @@ class TextLocalizations {
 
   String get entry {
     return _localizedValues[locale.languageCode]!['entry']!;
+  }
+
+  String get isEstimate {
+    return _localizedValues[locale.languageCode]!['isEstimate']!;
   }
 
   String get loadingEntry {

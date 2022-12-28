@@ -1,4 +1,4 @@
-﻿// <copyright file="ViewEntryUsingEntryIdentifierTest.cs" company="Tom Cook">
+﻿// <copyright file="EditEntryWithEstimateIndicatorTest.cs" company="Tom Cook">
 // Copyright (c) Tom Cook. All rights reserved.
 // </copyright>
 
@@ -7,13 +7,14 @@ namespace MintyPeterson.Counter.Api.Tests.Integration.Functions.Entry
   using System.Net;
   using System.Net.Http.Json;
   using FluentAssertions;
+  using MintyPeterson.Counter.Api.Models.Requests;
   using MintyPeterson.Counter.Api.Models.Responses;
   using Xunit;
 
   /// <summary>
-  /// Tests if the user can view an existing entry by specifying the entry identifier.
+  /// Tests if the user can edit an existing entry while indicating that the entry is an estimate.
   /// </summary>
-  public class ViewEntryUsingEntryIdentifierTest : IntegrationTest
+  public class EditEntryWithEstimateIndicatorTest : IntegrationTest
   {
     /// <summary>
     /// Stores the <see cref="HttpResponseMessage"/>.
@@ -23,13 +24,13 @@ namespace MintyPeterson.Counter.Api.Tests.Integration.Functions.Entry
     /// <summary>
     /// Stores the <see cref="HttpResponseMessage"/> content.
     /// </summary>
-    private EntryViewResponse? responseContent;
+    private EntryEditResponse? responseContent;
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="ViewEntryUsingEntryIdentifierTest"/> class.
+    /// Initializes a new instance of the <see cref="EditEntryWithEstimateIndicatorTest"/> class.
     /// </summary>
     /// <param name="fixture">A <see cref="CounterWebApplicationFactory"/>.</param>
-    public ViewEntryUsingEntryIdentifierTest(CounterWebApplicationFactory fixture)
+    public EditEntryWithEstimateIndicatorTest(CounterWebApplicationFactory fixture)
       : base(fixture)
     {
     }
@@ -47,34 +48,6 @@ namespace MintyPeterson.Counter.Api.Tests.Integration.Functions.Entry
     [Fact]
     public void EntryIdentiferShouldNotBeEmpty() =>
       this.responseContent!.EntryId.Should().NotBeEmpty();
-
-    /// <summary>
-    /// Tests if the entry date has a value.
-    /// </summary>
-    [Fact]
-    public void EntryDateShouldBePopulated() =>
-      this.responseContent!.EntryDate.Should().Be(DateTime.Today);
-
-    /// <summary>
-    /// Tests if the entry has a value.
-    /// </summary>
-    [Fact]
-    public void EntryShouldBePopulated() =>
-      this.responseContent!.Entry.Should().Be(10);
-
-    /// <summary>
-    /// Tests if notes has a value.
-    /// </summary>
-    [Fact]
-    public void NotesShouldBePopulated() =>
-      this.responseContent!.Notes.Should().Be("Ten");
-
-    /// <summary>
-    /// Tests if the estimate indicator has a value.
-    /// </summary>
-    [Fact]
-    public void EstimateIndicatorShouldBePopulated() =>
-      this.responseContent!.IsEstimate.Should().Be(true);
 
     /// <inheritdoc/>
     public override Task InitializeAsync()
@@ -118,7 +91,6 @@ namespace MintyPeterson.Counter.Api.Tests.Integration.Functions.Entry
            ,UpdatedByUserID
            ,EntryDate
            ,Entry
-           ,Notes
            ,IsEstimate
           )
           VALUES (
@@ -129,18 +101,25 @@ namespace MintyPeterson.Counter.Api.Tests.Integration.Functions.Entry
            ,@UserID
            ,@CurrentDate
            ,'10'
-           ,'Ten'
-           ,1
+           ,0
           )
         ");
 
+      var content = BuildRequestContent(
+        new EntryEditRequestBody
+        {
+          EntryDate = DateTime.Today.AddDays(1),
+          Entry = 20,
+          IsEstimate = true,
+        });
+
       this.response =
-        await this.Client.GetAsync("/Entry/00000000-0000-0000-0000-000000000001");
+        await this.Client.PutAsync("/Entry/00000000-0000-0000-0000-000000000001", content);
 
       if (this.response.IsSuccessStatusCode)
       {
         this.responseContent =
-          await this.response.Content.ReadFromJsonAsync<EntryViewResponse>();
+          await this.response.Content.ReadFromJsonAsync<EntryEditResponse>();
       }
     }
   }

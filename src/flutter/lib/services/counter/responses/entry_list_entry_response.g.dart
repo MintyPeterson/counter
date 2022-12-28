@@ -13,4 +13,5 @@ EntryListEntryResponse _$EntryListEntryResponseFromJson(
       entryDate: DateTime.parse(json['entryDate'] as String),
       entry: json['entry'] as int,
       notes: json['notes'] as String?,
+      isEstimate: json['isEstimate'] as bool,
     );

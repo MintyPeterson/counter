@@ -11,11 +11,13 @@ class EntryEditRequest {
   final DateTime entryDate;
   final int entry;
   final String? notes;
+  final bool? isEstimate;
   const EntryEditRequest({
     required this.entryId,
     required this.entryDate,
     required this.entry,
     this.notes,
+    this.isEstimate,
   });
 
   Map<String, dynamic> toJson() => _$EntryEditRequestToJson(this);

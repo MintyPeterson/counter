@@ -34,6 +34,7 @@ class _AddEntryPageState extends State<AddEntryPage> {
   late TextEditingController _entryController;
 
   DateTime entryDate = DateTime.now();
+  bool isEstimate = false;
 
   @override
   void initState() {
@@ -119,6 +120,18 @@ class _AddEntryPageState extends State<AddEntryPage> {
                   labelText: TextLocalizations.of(context).notes
                 ),
               ),
+              CheckboxListTile(
+                enabled: !widget.viewModel.addingEntry,
+                controlAffinity: ListTileControlAffinity.leading,
+                contentPadding: const EdgeInsets.fromLTRB(0, 10, 0, 10),
+                value: isEstimate,
+                onChanged: (bool? value) {
+                  setState(() {
+                    isEstimate = value!;
+                  });
+                },
+                title: Text(TextLocalizations.of(context).isEstimate),
+              ),
               if (widget.viewModel.addingEntry) ...const <Widget>[
                 SizedBox(height: 32),
                 CircularProgressIndicator(),
@@ -157,7 +170,8 @@ class _AddEntryPageState extends State<AddEntryPage> {
         final EntryNewRequest item = EntryNewRequest(
           entryDate: entryDate,
           notes: _notesController.text.trim().isEmpty ? null : _notesController.text.trim(),
-          entry: int.parse(_entryController.text)
+          entry: int.parse(_entryController.text),
+          isEstimate: isEstimate,
         );
         await widget.viewModel.addEntry(item);
         if (!mounted) {

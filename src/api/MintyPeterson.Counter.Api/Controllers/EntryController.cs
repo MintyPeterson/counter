@@ -196,6 +196,7 @@ namespace MintyPeterson.Counter.Api.Controllers
             {
               Name = g.Key.ToString("d"),
               Total = g.Sum(e => e.Entry),
+              IsEstimate = g.Any(e => e.IsEstimate),
               Entries = this.mapperService.Map<IEnumerable<EntryListEntryResponse>>(g),
             }),
       };

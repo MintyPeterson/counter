@@ -117,7 +117,7 @@ class _SummaryPageState extends State<SummaryPage> {
                               ],
                             ),
                           ),
-                          Text(group.total.toString()),
+                          Text('${group.isEstimate ? '~' : ''}${group.total.toString()}'),
                         ],
                       ),
                       children: <Widget>[
@@ -168,7 +168,7 @@ class _SummaryPageState extends State<SummaryPage> {
                   ],
                 ),
               ),
-              Text(entry.entry.toString()),
+              Text('${entry.isEstimate ? '~' : ''}${entry.entry.toString()}'),
             ],
           ),
           onTap: () async {

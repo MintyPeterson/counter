@@ -12,4 +12,5 @@ Map<String, dynamic> _$EntryEditRequestToJson(EntryEditRequest instance) =>
       'entryDate': instance.entryDate.toIso8601String(),
       'entry': instance.entry,
       'notes': instance.notes,
+      'isEstimate': instance.isEstimate,
     };

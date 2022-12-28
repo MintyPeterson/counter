@@ -29,5 +29,10 @@ namespace MintyPeterson.Counter.Api.Services.Storage.Results
     /// Gets or sets the notes.
     /// </summary>
     public string? Notes { get; set; }
+
+    /// <summary>
+    /// Gets or sets a value indicating whether the entry is an estimate or not.
+    /// </summary>
+    public bool IsEstimate { get; set; }
   }
 }
