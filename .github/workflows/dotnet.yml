@@ -1,0 +1,30 @@
+# This workflow will build and test the counter project.
+
+name: Build and test
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+  workflow_dispatch:
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v3
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v3
+      with:
+        dotnet-version: 6.0.x
+    - working-directory: ./src/api/MintyPeterson.Counter.Api
+    - name: Restore dependencies
+      run: dotnet restore
+    - name: Build
+      run: dotnet build --no-restore
+    - working-directory: ./src/api/MintyPeterson.Counter.Api.Tests
+    - name: Test
+      run: dotnet test --no-build --verbosity normal --filter Category=Unit
