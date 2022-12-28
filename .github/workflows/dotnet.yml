@@ -20,11 +20,9 @@ jobs:
       uses: actions/setup-dotnet@v3
       with:
         dotnet-version: 6.0.x
-    - working-directory: ./src/api/MintyPeterson.Counter.Api
     - name: Restore dependencies
-      run: dotnet restore
+      run: dotnet restore ./src/api/MintyPeterson.Counter.Api/
     - name: Build
-      run: dotnet build --no-restore
-    - working-directory: ./src/api/MintyPeterson.Counter.Api.Tests
+      run: dotnet build --no-restore ./src/api/MintyPeterson.Counter.Api/
     - name: Test
-      run: dotnet test --no-build --verbosity normal --filter Category=Unit
+      run: dotnet test --no-build --verbosity normal --filter Category=Unit ./src/api/MintyPeterson.Counter.Api.Tests/
