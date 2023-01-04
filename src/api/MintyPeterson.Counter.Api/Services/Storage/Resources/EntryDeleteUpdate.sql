@@ -11,6 +11,10 @@
 -- OUTPUTS
 --   EntryID - The identifier of the updated entry.
 --
+DECLARE @Output TABLE (
+  EntryID uniqueidentifier
+)
+
 UPDATE
   Entries
 SET
@@ -18,7 +22,14 @@ SET
  ,Entries.DeletedByUserID = @DeletedByUserID
 OUTPUT
   Inserted.EntryID
+INTO
+  @Output
 WHERE
   Entries.EntryID = @EntryID
     AND
       Entries.DeletedDateTime IS NULL
+
+SELECT
+  EntryID
+FROM
+  @Output

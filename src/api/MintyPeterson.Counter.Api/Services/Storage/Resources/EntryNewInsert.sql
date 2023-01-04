@@ -13,6 +13,10 @@
 -- OUTPUTS
 --   EntryID - The identifier of the newly created entry.
 --
+DECLARE @Output TABLE (
+  EntryID uniqueidentifier
+)
+
 INSERT INTO Entries (
   EntryID
  ,CreatedDateTime
@@ -26,6 +30,8 @@ INSERT INTO Entries (
 )
 OUTPUT
   Inserted.EntryID
+INTO
+  @Output
 VALUES (
   NEWID()
  ,@CreatedDateTime
@@ -37,3 +43,8 @@ VALUES (
  ,@Notes
  ,@IsEstimate
 )
+
+SELECT
+  EntryID
+FROM
+  @Output

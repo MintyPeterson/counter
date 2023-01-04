@@ -74,15 +74,15 @@ namespace MintyPeterson.Counter.Api.Services.Storage.Resources {
         ///-- OUTPUTS
         ///--   EntryID - The identifier of the updated entry.
         ///--
+        ///DECLARE @Output TABLE (
+        ///  EntryID uniqueidentifier
+        ///)
+        ///
         ///UPDATE
         ///  Entries
         ///SET
         ///  Entries.DeletedDateTime = @DeletedDateTime
-        /// ,Entries.DeletedByUserID = @DeletedByUserID
-        ///OUTPUT
-        ///  Inserted.EntryID
-        ///WHERE
-        /// [rest of string was truncated]&quot;;.
+        /// ,Entries.DeletedByUser [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string EntryDeleteUpdate {
             get {
@@ -107,7 +107,7 @@ namespace MintyPeterson.Counter.Api.Services.Storage.Resources {
         ///-- OUTPUTS
         ///--   EntryID - The identifier of the updated entry.
         ///--
-        ///UPDAT [rest of string was truncated]&quot;;.
+        ///DECLA [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string EntryEditUpdate {
             get {
@@ -180,8 +180,8 @@ namespace MintyPeterson.Counter.Api.Services.Storage.Resources {
         ///-- OUTPUTS
         ///--   EntryID - The identifier of the newly created entry.
         ///--
-        ///INSERT INTO Entries (
-        ///  EntryID        /// [rest of string was truncated]&quot;;.
+        ///DECLARE @Output TABLE (
+        ///  EntryI [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string EntryNewInsert {
             get {
