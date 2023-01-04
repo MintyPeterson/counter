@@ -79,7 +79,7 @@ namespace MintyPeterson.Counter.Api.Tests.Integration.Functions.Entry
            ,@CurrentDateTime
            ,@CurrentDateTime
            ,'Integration Tester'
-           ,'identity.tester@drtomcook.uk'
+           ,'integration.tester@drtomcook.uk'
           )
 
           INSERT INTO Entries (

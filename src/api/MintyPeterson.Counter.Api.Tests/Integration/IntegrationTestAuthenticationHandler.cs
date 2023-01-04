@@ -29,12 +29,12 @@ namespace MintyPeterson.Counter.Api.Tests.Integration
     /// <summary>
     /// Default value for the name claim.
     /// </summary>
-    private const string DefaultNameClaim = "Identity Tester";
+    private const string DefaultNameClaim = "Integration Tester";
 
     /// <summary>
     /// Default value for the e-mail claim.
     /// </summary>
-    private const string DefaultEmailClaim = "identity.tester@drtomcook.uk";
+    private const string DefaultEmailClaim = "integration.tester@drtomcook.uk";
 
     /// <summary>
     /// Initializes a new instance of the <see cref="IntegrationTestAuthenticationHandler"/> class.
