@@ -36,7 +36,7 @@ namespace MintyPeterson.Counter.Api.Maps
 
       this.CreateMap<EntryEditRequestBody, EntryEditQuery>()
         .ForMember(
-          m => m.EntryID,
+          m => m.EntryId,
           m => m.Ignore())
         .ForMember(
           m => m.UpdatedDateTime,

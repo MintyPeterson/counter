@@ -12,7 +12,7 @@ namespace MintyPeterson.Counter.Api.Services.Storage.Queries
     /// <summary>
     /// Gets or sets the entry identifer.
     /// </summary>
-    public Guid EntryID { get; set; }
+    public Guid EntryId { get; set; }
 
     /// <summary>
     /// Gets or sets the <see cref="DateTimeOffset"/> the entry was updated.

@@ -64,7 +64,7 @@ namespace MintyPeterson.Counter.Api.Filters
       var userSynchroniseResult = this.storageService.UserSynchronise(
         new UserSynchroniseQuery
         {
-          UserID = user.GetSubjectIdentifier(),
+          UserId = user.GetSubjectIdentifier(),
           Name = user.GetName(),
           Email = user.GetEmail(),
           UpdatedDateTime = DateTimeOffset.Now,

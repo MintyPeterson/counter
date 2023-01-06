@@ -267,7 +267,7 @@ namespace MintyPeterson.Counter.Api.Controllers
 
       var query = this.mapperService.Map<EntryEditQuery>(request.Body);
       {
-        query.EntryID = request.EntryId!.Value;
+        query.EntryId = request.EntryId!.Value;
         query.UpdatedDateTime = DateTimeOffset.Now;
         query.UpdatedByUserId = this.User.GetSubjectIdentifier();
       }

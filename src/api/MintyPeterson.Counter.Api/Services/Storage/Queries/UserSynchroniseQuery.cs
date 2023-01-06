@@ -12,7 +12,7 @@ namespace MintyPeterson.Counter.Api.Services.Storage.Queries
     /// <summary>
     /// Gets or sets the user identifer.
     /// </summary>
-    public string? UserID { get; set; }
+    public string? UserId { get; set; }
 
     /// <summary>
     /// Gets or sets the full name.
