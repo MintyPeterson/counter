@@ -13,5 +13,10 @@ namespace MintyPeterson.Counter.Api.Services.Storage.Queries
     /// Gets or sets the identifer of the user who created the entry.
     /// </summary>
     public string? CreatedByUserId { get; set; }
+
+    /// <summary>
+    /// Gets or sets the notes filter.
+    /// </summary>
+    public string? Notes { get; set; }
   }
 }

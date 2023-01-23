@@ -147,6 +147,7 @@ namespace MintyPeterson.Counter.Api.Services.Storage.Resources {
         ///--
         ///-- PARAMETERS
         ///--   @CreatedByUserID - The identifer of the user who created the entry.
+        ///--   @Notes - An optional notes filter.
         ///--
         ///-- OUTPUTS
         ///--   EntryID - The entry identifier.
@@ -154,9 +155,7 @@ namespace MintyPeterson.Counter.Api.Services.Storage.Resources {
         ///--   CreatedByUserID - The identifer of the user who created the entry.
         ///--   UpdatedDateTime - The time the entry was updated.
         ///--   UpdatedByUserID - The identifer of the user who updated the entry.
-        ///--   EntryDate -  The entry date.
-        ///--   Entry - The entry.
-        ///--   [rest of string was truncated]&quot;;.
+        ///--   EntryDate -  The e [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string EntryListSelect {
             get {

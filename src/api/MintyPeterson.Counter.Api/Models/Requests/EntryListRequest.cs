@@ -9,5 +9,9 @@ namespace MintyPeterson.Counter.Api.Models.Requests
   /// </summary>
   public class EntryListRequest
   {
+    /// <summary>
+    /// Gets or sets the notes filter.
+    /// </summary>
+    public string? Notes { get; set; }
   }
 }

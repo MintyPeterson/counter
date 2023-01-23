@@ -4,6 +4,7 @@
 --
 -- PARAMETERS
 --   @CreatedByUserID - The identifer of the user who created the entry.
+--   @Notes - An optional notes filter.
 --
 -- OUTPUTS
 --   EntryID - The entry identifier.
@@ -32,6 +33,11 @@ WHERE
   Entries.CreatedByUserID = @CreatedByUserID
     AND
       Entries.DeletedDateTime IS NULL
+    AND (
+      @Notes IS NULL
+        OR
+          Entries.Notes LIKE '%' + @Notes + '%'
+    )
 ORDER BY
   Entries.EntryDate DESC
  ,Entries.CreatedDateTime DESC
