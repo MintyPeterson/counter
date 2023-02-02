@@ -7,6 +7,7 @@ import 'package:counter/services/counter/responses/entry_list_group_response.dar
 import 'package:counter/services/counter/responses/entry_list_response.dart';
 import 'package:counter/text_localizations.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 /// A widget that provides a summary page.
 ///
@@ -47,7 +48,7 @@ class _SummaryPageState extends State<SummaryPage> {
             onSelected: (SummaryPageOverflowMenu item) async {
               switch (item) {
                 case SummaryPageOverflowMenu.refresh: {
-                  await widget.viewModel.refreshEntryList();
+                  await _refreshEntryList();
                 }
                 break;
                 case SummaryPageOverflowMenu.signOut: {
@@ -84,7 +85,7 @@ class _SummaryPageState extends State<SummaryPage> {
                       const SizedBox(height: 20),
                       ElevatedButton(
                         onPressed: () async {
-                          await widget.viewModel.refreshEntryList();
+                          await _refreshEntryList();
                         },
                         child: Text(TextLocalizations.of(context).retry),
                       ),
@@ -180,6 +181,30 @@ class _SummaryPageState extends State<SummaryPage> {
     return columnContent;
   }
 
+  Future<void> _refreshEntryList() async {
+    try
+    {
+      await widget.viewModel.refreshEntryList();
+    } on Exception catch (error) {
+      if (error is PlatformException && error.message!.contains('invalid_grant')) {
+        await showDialog(
+          context: context,
+          builder: (_) => AlertDialog(
+            content: Text(TextLocalizations.of(context).sessionExpired),
+            actions: <Widget>[
+              TextButton(
+                onPressed: () async {
+                  await _signOut();
+                },
+                child: Text(TextLocalizations.of(context).ok),
+              )
+            ],
+          ),
+        );
+      }
+    }
+  }
+
   Future<void> _signOut() async {
     await widget.viewModel.signOut();
     if (!mounted) {
@@ -192,7 +217,7 @@ class _SummaryPageState extends State<SummaryPage> {
   Future<void> _addEntry() async {
     final bool? result = (await Navigator.of(context).pushNamed(AddEntryPage.route)) as bool?;
     if (result ?? false) {
-      await widget.viewModel.refreshEntryList();
+      await _refreshEntryList();
     }
   }
 
@@ -201,7 +226,7 @@ class _SummaryPageState extends State<SummaryPage> {
       await Navigator.of(context).pushNamed(EditEntryPage.route, arguments: entryId)
     ) as bool?;
     if (result ?? false) {
-      await widget.viewModel.refreshEntryList();
+      await _refreshEntryList();
     }
   }
 }
