@@ -47,8 +47,8 @@ namespace MintyPeterson.Counter.Api.Validators
         .NotNull()
         .WithMessage(
           Resources.Strings.EntryParameterRequired)
-        .ScalePrecision(
-          0, 5)
+        .PrecisionScale(
+          5, 0, false)
         .WithMessage(
           Resources.Strings.EntryParameterOutOfRange)
         .OverridePropertyName(
