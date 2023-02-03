@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'package:counter/services/authorization_service.dart';
 import 'package:counter/services/counter/requests/entry_delete_request.dart';
 import 'package:counter/services/counter/requests/entry_edit_request.dart';
+import 'package:counter/services/counter/requests/entry_list_request.dart';
 import 'package:counter/services/counter/requests/entry_new_request.dart';
 import 'package:counter/services/counter/requests/entry_view_request.dart';
 import 'package:counter/services/counter/responses/entry_delete_response.dart';
@@ -20,10 +21,10 @@ class CounterService {
   final AuthorizationService authorizationService;
   CounterService(this.authorizationService);
 
-  Future<EntryListResponse> entryList() async {
+  Future<EntryListResponse> entryList(EntryListRequest request) async {
     final String? accessToken = await authorizationService.getValidAccessToken();
     final http.Response response = await http.get(
-      Uri.parse('$counterApiUrl/Entries'),
+      Uri.parse('$counterApiUrl/Entries?Notes=${request.notes ?? ""}'),
       headers: <String, String>{
         'Content-Type': 'application/json',
         'Authorization': 'Bearer $accessToken',

@@ -31,6 +31,7 @@ class TextLocalizations {
       'retryLoadEntries': 'Your entries could not be loaded. Please try again.',
       'retryLoadEntry': 'Your entry could not be loaded. Please try again.',
       'required': 'Required',
+      'search': 'Search...',
       'sessionExpired': 'Your session has expired. Please sign in.',
       'signIn': 'Sign in',
       'signInTitle': 'Counter',
@@ -115,6 +116,10 @@ class TextLocalizations {
 
   String get retryLoadEntry {
     return _localizedValues[locale.languageCode]!['retryLoadEntry']!;
+  }
+
+  String get search {
+    return _localizedValues[locale.languageCode]!['search']!;
   }
 
   String get sessionExpired {

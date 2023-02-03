@@ -1,5 +1,6 @@
 import 'package:counter/pages/summary/summary_page.dart';
 import 'package:counter/services/counter/counter_service.dart';
+import 'package:counter/services/counter/requests/entry_list_request.dart';
 import 'package:counter/services/counter/responses/entry_list_response.dart';
 import 'package:counter/services/secure_storage_service.dart';
 import 'package:flutter/foundation.dart';
@@ -16,11 +17,15 @@ class SummaryViewModel extends ChangeNotifier {
     this.counterService,
     this.secureStorageService);
 
-  Future<void> loadInitialEntryList() =>
-    _entryListFuture = counterService.entryList();
+  Future<void> loadInitialEntryList(String? notes) =>
+    _entryListFuture = counterService.entryList(EntryListRequest(
+      notes: notes
+    ));
 
-  Future<void> refreshEntryList() async {
-    _entryListFuture = counterService.entryList();
+  Future<void> refreshEntryList(String? notes) async {
+    _entryListFuture = counterService.entryList(EntryListRequest(
+      notes: notes
+    ));
     notifyListeners();
     await _entryListFuture;
   }

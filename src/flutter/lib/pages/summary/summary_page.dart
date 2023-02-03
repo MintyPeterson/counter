@@ -32,43 +32,27 @@ enum SummaryPageOverflowMenu { refresh, signOut }
 /// The logic and internal state for [SummaryPage].
 class _SummaryPageState extends State<SummaryPage> {
 
+  final TextEditingController _searchQueryController = TextEditingController();
+
+  String? _searchQuery;
+
+  bool _isSearching = false;
+  bool _hasSearched = false;
+
   @override
   void initState() {
     super.initState();
-    widget.viewModel.loadInitialEntryList();
+    widget.viewModel.loadInitialEntryList(null);
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(TextLocalizations.of(context).counter),
-        actions: <Widget>[
-          PopupMenuButton<SummaryPageOverflowMenu>(
-            onSelected: (SummaryPageOverflowMenu item) async {
-              switch (item) {
-                case SummaryPageOverflowMenu.refresh: {
-                  await _refreshEntryList();
-                }
-                break;
-                case SummaryPageOverflowMenu.signOut: {
-                  await _signOut();
-                }
-                break;
-              }
-            },
-            itemBuilder: (BuildContext context) =>
-              <PopupMenuEntry<SummaryPageOverflowMenu>>[
-                PopupMenuItem<SummaryPageOverflowMenu>(
-                  value: SummaryPageOverflowMenu.refresh,
-                  child: Text(TextLocalizations.of(context).refresh),
-                ),
-                PopupMenuItem<SummaryPageOverflowMenu>(
-                  value: SummaryPageOverflowMenu.signOut,
-                  child: Text(TextLocalizations.of(context).signOut),
-                ),
-              ])
-        ],
+        leading: _buildAppBarLeading(),
+        title: _buildAppBarTitle(),
+        actions: _buildAppBarActions(),
+        automaticallyImplyLeading: false,
       ),
       body: FutureBuilder<EntryListResponse>(
         future: widget.viewModel.entryListFuture,
@@ -154,7 +138,76 @@ class _SummaryPageState extends State<SummaryPage> {
     );
   }
 
-  _buildGroupContent(EntryListGroupResponse group) {
+  Widget? _buildAppBarLeading() {
+    if (_isSearching) {
+      return const BackButton();
+    }
+    return null;
+  }
+
+  Widget? _buildAppBarTitle() {
+    if (_isSearching) {
+      return _buildAppBarSearchField();
+    }
+    return Text(TextLocalizations.of(context).counter);
+  }
+
+  Widget _buildAppBarSearchField() {
+    return TextField(
+      autofocus: true,
+      controller: _searchQueryController,
+      cursorColor: Colors.white,
+      decoration: InputDecoration(
+        border: InputBorder.none,
+        hintText: TextLocalizations.of(context).search,
+        hintStyle: TextStyle(color: Colors.white.withAlpha(128)),
+      ),
+      style: const TextStyle(color: Colors.white),
+      textInputAction: TextInputAction.search,
+      onChanged: (query) => _updateSearchQuery(query),
+      onSubmitted: (query) => _runSearch()
+    );
+  }
+
+  List<Widget>? _buildAppBarActions() {
+    if (_isSearching) {
+      return null;
+    }
+    return <Widget>[
+      IconButton(
+        icon: const Icon(Icons.search),
+        onPressed: () {
+          _startSearch();
+        }
+      ),
+      PopupMenuButton<SummaryPageOverflowMenu>(
+        onSelected: (SummaryPageOverflowMenu item) async {
+          switch (item) {
+            case SummaryPageOverflowMenu.refresh: {
+              await _refreshEntryList();
+            }
+            break;
+            case SummaryPageOverflowMenu.signOut: {
+              await _signOut();
+            }
+            break;
+          }
+        },
+        itemBuilder: (BuildContext context) =>
+          <PopupMenuEntry<SummaryPageOverflowMenu>>[
+            PopupMenuItem<SummaryPageOverflowMenu>(
+              value: SummaryPageOverflowMenu.refresh,
+              child: Text(TextLocalizations.of(context).refresh),
+            ),
+            PopupMenuItem<SummaryPageOverflowMenu>(
+              value: SummaryPageOverflowMenu.signOut,
+              child: Text(TextLocalizations.of(context).signOut),
+            ),
+          ])
+    ];
+  }
+
+  List<Widget> _buildGroupContent(EntryListGroupResponse group) {
     List<Widget> columnContent = [];
     for (EntryListEntryResponse entry in group.entries) {
       columnContent.add(
@@ -181,10 +234,47 @@ class _SummaryPageState extends State<SummaryPage> {
     return columnContent;
   }
 
+  void _startSearch() {
+    ModalRoute.of(context)?.addLocalHistoryEntry(
+      LocalHistoryEntry(onRemove: _stopSearching));
+    setState(() {
+      _isSearching = true;
+    });
+  }
+
+  void _runSearch() async {
+    _hasSearched = _searchQuery?.isEmpty == false;
+    await _refreshEntryList();
+  }
+
+  void _updateSearchQuery(String? query) {
+    setState(() {
+      _searchQuery = query;
+    });
+  }
+
+  void _stopSearching() async {
+    _clearSearchQuery();
+    setState(() {
+      _isSearching = false;
+    });
+    if (_hasSearched) {
+      await _refreshEntryList();
+      _hasSearched = false;
+    }
+  }
+
+  void _clearSearchQuery() {
+    setState(() {
+      _searchQueryController.clear();
+      _updateSearchQuery(null);
+    });
+  }
+
   Future<void> _refreshEntryList() async {
     try
     {
-      await widget.viewModel.refreshEntryList();
+      await widget.viewModel.refreshEntryList(_searchQuery);
     } on Exception catch (error) {
       if (error is PlatformException && error.message!.contains('invalid_grant')) {
         await showDialog(
