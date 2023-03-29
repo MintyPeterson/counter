@@ -67,6 +67,7 @@ namespace MintyPeterson.Counter.Api.Tests.Unit.Validators
               EntryDate = DateTime.Today,
               Entry = 10,
               Notes = string.Empty,
+              IsEstimate = true,
             },
         });
 
