@@ -17,41 +17,41 @@ namespace MintyPeterson.Counter.Api.Services.Storage
     /// </summary>
     /// <param name="query">A <see cref="EntryNewQuery"/>.</param>
     /// <returns>A <see cref="EntryNewResult"/>.</returns>
-    EntryNewResult? EntryNew(EntryNewQuery query);
+    StorageServiceResult<EntryNewResult> EntryNew(EntryNewQuery query);
 
     /// <summary>
     /// Gets an entry.
     /// </summary>
     /// <param name="query">A <see cref="EntryGetQuery"/>.</param>
     /// <returns>A <see cref="EntryGetResult"/>.</returns>
-    EntryGetResult? EntryGet(EntryGetQuery query);
+    StorageServiceResult<EntryGetResult> EntryGet(EntryGetQuery query);
 
     /// <summary>
     /// Deletes an entry.
     /// </summary>
     /// <param name="query">A <see cref="EntryDeleteQuery"/>.</param>
     /// <returns>A <see cref="EntryDeleteResult"/>.</returns>
-    EntryDeleteResult? EntryDelete(EntryDeleteQuery query);
+    StorageServiceResult<EntryDeleteResult> EntryDelete(EntryDeleteQuery query);
 
     /// <summary>
     /// Lists entries.
     /// </summary>
     /// <param name="query">A <see cref="EntryListQuery"/>.</param>
     /// <returns>A <see cref="EntryListResult"/>.</returns>
-    EntryListResult? EntryList(EntryListQuery query);
+    StorageServiceResult<EntryListResult> EntryList(EntryListQuery query);
 
     /// <summary>
     /// Updates an entry.
     /// </summary>
     /// <param name="query">A <see cref="EntryEditQuery"/>.</param>
     /// <returns>A <see cref="EntryEditResult"/>.</returns>
-    EntryEditResult? EntryEdit(EntryEditQuery query);
+    StorageServiceResult<EntryEditResult> EntryEdit(EntryEditQuery query);
 
     /// <summary>
     /// Updates or inserts a user.
     /// </summary>
     /// <param name="query">A <see cref="UserSynchroniseQuery"/>.</param>
     /// <returns>A <see cref="UserSynchroniseResult"/>.</returns>
-    UserSynchroniseResult? UserSynchronise(UserSynchroniseQuery query);
+    StorageServiceResult<UserSynchroniseResult> UserSynchronise(UserSynchroniseQuery query);
   }
 }

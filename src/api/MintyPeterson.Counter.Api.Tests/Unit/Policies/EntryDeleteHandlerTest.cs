@@ -68,7 +68,7 @@ namespace MintyPeterson.Counter.Api.Tests.Unit.Policies
 
       storageService.Setup(
         options => options.EntryGet(It.IsAny<EntryGetQuery>()))
-          .Returns((EntryGetResult?)null);
+          .Returns(new StorageServiceResult<EntryGetResult>());
 
       var handler = new EntryDeleteHandler(storageService.Object, mapperService.Object);
 
@@ -94,7 +94,13 @@ namespace MintyPeterson.Counter.Api.Tests.Unit.Policies
       storageService.Setup(
         options => options.EntryGet(It.IsAny<EntryGetQuery>()))
           .Returns(
-            new EntryGetResult { CreatedByUserId = this.defaultNameIdentifierClaim.ToString() });
+            new StorageServiceResult<EntryGetResult>
+            {
+              Result = new EntryGetResult
+              {
+                CreatedByUserId = this.defaultNameIdentifierClaim.ToString(),
+              },
+            });
 
       var handler = new EntryDeleteHandler(storageService.Object, mapperService.Object);
 
@@ -120,7 +126,13 @@ namespace MintyPeterson.Counter.Api.Tests.Unit.Policies
       storageService.Setup(
         options => options.EntryGet(It.IsAny<EntryGetQuery>()))
           .Returns(
-            new EntryGetResult { CreatedByUserId = Guid.NewGuid().ToString() });
+            new StorageServiceResult<EntryGetResult>
+            {
+              Result = new EntryGetResult
+              {
+                CreatedByUserId = Guid.NewGuid().ToString(),
+              },
+            });
 
       var handler = new EntryDeleteHandler(storageService.Object, mapperService.Object);
 

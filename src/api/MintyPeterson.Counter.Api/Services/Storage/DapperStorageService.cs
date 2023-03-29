@@ -29,90 +29,158 @@ namespace MintyPeterson.Counter.Api.Services.Storage
     }
 
     /// <inheritdoc/>
-    public override EntryNewResult? EntryNew(EntryNewQuery query)
+    public override StorageServiceResult<EntryNewResult> EntryNew(EntryNewQuery query)
     {
-      using (var connection = new SqlConnection(this.connectionString))
-      {
-        return connection.QuerySingleOrDefault<EntryNewResult>(
-          Resources.Queries.EntryNewInsert,
-          query);
-      }
-    }
+      var result = new StorageServiceResult<EntryNewResult>();
 
-    /// <inheritdoc/>
-    public override EntryGetResult? EntryGet(EntryGetQuery query)
-    {
-      using (var connection = new SqlConnection(this.connectionString))
+      try
       {
-        return connection.QuerySingleOrDefault<EntryGetResult>(
-          Resources.Queries.EntryGetSelect,
-          query);
-      }
-    }
-
-    /// <inheritdoc/>
-    public override EntryDeleteResult? EntryDelete(EntryDeleteQuery query)
-    {
-      using (var connection = new SqlConnection(this.connectionString))
-      {
-        return connection.QuerySingleOrDefault<EntryDeleteResult>(
-          Resources.Queries.EntryDeleteUpdate,
-          query);
-      }
-    }
-
-    /// <inheritdoc/>
-    public override EntryListResult? EntryList(EntryListQuery query)
-    {
-      using (var connection = new SqlConnection(this.connectionString))
-      {
-        return new EntryListResult
+        using (var connection = new SqlConnection(this.connectionString))
         {
-          Entries = connection.Query<EntryListEntryResult>(
-            Resources.Queries.EntryListSelect,
-            query),
-        };
+          result.Result = connection.QuerySingleOrDefault<EntryNewResult>(
+            Resources.Queries.EntryNewInsert,
+            query);
+        }
       }
+      catch (SqlException error)
+      {
+        result.Exception = error;
+      }
+
+      return result;
     }
 
     /// <inheritdoc/>
-    public override EntryEditResult? EntryEdit(EntryEditQuery query)
+    public override StorageServiceResult<EntryGetResult> EntryGet(EntryGetQuery query)
     {
-      using (var connection = new SqlConnection(this.connectionString))
+      var result = new StorageServiceResult<EntryGetResult>();
+
+      try
       {
-        return connection.QuerySingleOrDefault<EntryEditResult>(
-          Resources.Queries.EntryEditUpdate,
-          query);
-      }
-    }
-
-    /// <inheritdoc/>
-    public override UserSynchroniseResult? UserSynchronise(UserSynchroniseQuery query)
-    {
-      UserSynchroniseResult? result = null;
-
-      using (var connection = new SqlConnection(this.connectionString))
-      {
-        connection.Open();
-
-        using (var transaction = connection.BeginTransaction())
+        using (var connection = new SqlConnection(this.connectionString))
         {
-          var numberOfRowsAffected =
-            connection.Execute(Resources.Queries.UserSynchroniseUpdate, query, transaction);
+          result.Result = connection.QuerySingleOrDefault<EntryGetResult>(
+            Resources.Queries.EntryGetSelect,
+            query);
+        }
+      }
+      catch (SqlException error)
+      {
+        result.Exception = error;
+      }
 
-          if (numberOfRowsAffected == 0)
+      return result;
+    }
+
+    /// <inheritdoc/>
+    public override StorageServiceResult<EntryDeleteResult> EntryDelete(EntryDeleteQuery query)
+    {
+      var result = new StorageServiceResult<EntryDeleteResult>();
+
+      try
+      {
+        using (var connection = new SqlConnection(this.connectionString))
+        {
+          result.Result = connection.QuerySingleOrDefault<EntryDeleteResult>(
+            Resources.Queries.EntryDeleteUpdate,
+            query);
+        }
+      }
+      catch (SqlException error)
+      {
+        result.Exception = error;
+      }
+
+      return result;
+    }
+
+    /// <inheritdoc/>
+    public override StorageServiceResult<EntryListResult> EntryList(EntryListQuery query)
+    {
+      var result = new StorageServiceResult<EntryListResult>();
+
+      try
+      {
+        using (var connection = new SqlConnection(this.connectionString))
+        {
+          result.Result = new EntryListResult
           {
-            numberOfRowsAffected =
-              connection.Execute(Resources.Queries.UserSynchroniseInsert, query, transaction);
-          }
+            Entries = connection.Query<EntryListEntryResult>(
+              Resources.Queries.EntryListSelect,
+              query),
+          };
+        }
+      }
+      catch (SqlException error)
+      {
+        result.Exception = error;
+      }
 
-          transaction.Commit();
+      return result;
+    }
 
-          if (numberOfRowsAffected > 0)
+    /// <inheritdoc/>
+    public override StorageServiceResult<EntryEditResult> EntryEdit(EntryEditQuery query)
+    {
+      var result = new StorageServiceResult<EntryEditResult>();
+
+      try
+      {
+        using (var connection = new SqlConnection(this.connectionString))
+        {
+          result.Result = connection.QuerySingleOrDefault<EntryEditResult>(
+            Resources.Queries.EntryEditUpdate,
+            query);
+        }
+      }
+      catch (SqlException error)
+      {
+        result.Exception = error;
+      }
+
+      return result;
+    }
+
+    /// <inheritdoc/>
+    public override StorageServiceResult<UserSynchroniseResult> UserSynchronise(
+      UserSynchroniseQuery query)
+    {
+      var result = new StorageServiceResult<UserSynchroniseResult>();
+
+      try
+      {
+        using (var connection = new SqlConnection(this.connectionString))
+        {
+          connection.Open();
+
+          using (var transaction = connection.BeginTransaction())
           {
-            result = new UserSynchroniseResult();
+            var numberOfRowsAffected =
+              connection.Execute(Resources.Queries.UserSynchroniseUpdate, query, transaction);
+
+            if (numberOfRowsAffected == 0)
+            {
+              numberOfRowsAffected =
+                connection.Execute(Resources.Queries.UserSynchroniseInsert, query, transaction);
+            }
+
+            transaction.Commit();
+
+            if (numberOfRowsAffected > 0)
+            {
+              result.Result = new UserSynchroniseResult();
+            }
+            else
+            {
+              result.Exception = new Exception(
+                "No rows affected. The user was not updated or inserted.");
+            }
           }
         }
+      }
+      catch (SqlException error)
+      {
+        result.Exception = error;
       }
 
       return result;

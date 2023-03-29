@@ -48,14 +48,14 @@ namespace MintyPeterson.Counter.Api.Policies
         var entryGetQuery = this.mapperService.Map<EntryGetQuery>(resource);
         var entryGetResult = this.storageService.EntryGet(entryGetQuery);
 
-        if (entryGetResult == null)
+        if (!entryGetResult.HasSucceeded)
         {
           // Entry does not exist.
           context.Succeed(requirement);
         }
         else
         {
-          if (context.User?.GetSubjectIdentifier() == entryGetResult.CreatedByUserId)
+          if (context.User?.GetSubjectIdentifier() == entryGetResult.Result!.CreatedByUserId)
           {
             // User created the entry.
             context.Succeed(requirement);

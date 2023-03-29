@@ -6,7 +6,6 @@ namespace MintyPeterson.Counter.Api.Controllers
 {
   using System.Text.Json;
   using AutoMapper;
-  using FluentValidation;
   using Microsoft.AspNetCore.Authorization;
   using Microsoft.AspNetCore.Mvc;
   using MintyPeterson.Counter.Api.Extensions;
@@ -72,9 +71,11 @@ namespace MintyPeterson.Counter.Api.Controllers
     public async Task<ActionResult<EntryNewResponse>> NewAsync([FromBody]EntryNewRequest request)
     {
       var validationResult = await this.ValidateRequestAsync(
+        this.loggerService,
         "NewAsync",
         request,
         new EntryNewRequestValidator(this.storageService),
+        this.authorisationService,
         EntryPolicies.NewPolicy);
 
       if (validationResult is not OkResult)
@@ -92,9 +93,16 @@ namespace MintyPeterson.Counter.Api.Controllers
 
       var result = this.storageService.EntryNew(query);
 
-      if (result == null)
+      if (!result.HasSucceeded)
       {
         this.loggerService.LogInformation("NewAsync: Save failed");
+
+        if (this.loggerService.IsEnabled(LogLevel.Debug))
+        {
+          this.loggerService.LogDebug(
+            "NewAsync: Exception is {message}",
+            JsonSerializer.Serialize(result.Exception?.Message));
+        }
 
         this.ModelState.AddModelError(
           Resources.Strings.Entry,
@@ -105,7 +113,7 @@ namespace MintyPeterson.Counter.Api.Controllers
 
       this.loggerService.LogInformation("NewAsync: Building response");
 
-      return this.mapperService.Map<EntryNewResponse>(result);
+      return this.mapperService.Map<EntryNewResponse>(result.Result);
     }
 
     /// <summary>
@@ -118,9 +126,11 @@ namespace MintyPeterson.Counter.Api.Controllers
       [FromRoute]EntryDeleteRequest request)
     {
       var validationResult = await this.ValidateRequestAsync(
+        this.loggerService,
         "DeleteAsync",
         request,
         new EntryDeleteRequestValidator(this.storageService),
+        this.authorisationService,
         EntryPolicies.DeletePolicy);
 
       if (validationResult is not OkResult)
@@ -138,9 +148,16 @@ namespace MintyPeterson.Counter.Api.Controllers
 
       var result = this.storageService.EntryDelete(query);
 
-      if (result == null)
+      if (!result.HasSucceeded)
       {
         this.loggerService.LogInformation("DeleteAsync: Delete failed");
+
+        if (this.loggerService.IsEnabled(LogLevel.Debug))
+        {
+          this.loggerService.LogDebug(
+            "DeleteAsync: Exception is {message}",
+            JsonSerializer.Serialize(result.Exception?.Message));
+        }
 
         this.ModelState.AddModelError(
           Resources.Strings.Entry,
@@ -151,7 +168,7 @@ namespace MintyPeterson.Counter.Api.Controllers
 
       this.loggerService.LogInformation("DeleteAsync: Building response");
 
-      return this.mapperService.Map<EntryDeleteResponse>(result);
+      return this.mapperService.Map<EntryDeleteResponse>(result.Result);
     }
 
     /// <summary>
@@ -164,9 +181,11 @@ namespace MintyPeterson.Counter.Api.Controllers
       [FromQuery]EntryListRequest request)
     {
       var validationResult = await this.ValidateRequestAsync(
+        this.loggerService,
         "ListAsync",
         request,
         new EntryListRequestValidator(this.storageService),
+        this.authorisationService,
         EntryPolicies.ListPolicy);
 
       if (validationResult is not OkResult)
@@ -183,23 +202,37 @@ namespace MintyPeterson.Counter.Api.Controllers
 
       var result = this.storageService.EntryList(query);
 
+      if (!result.HasSucceeded)
+      {
+        this.loggerService.LogInformation("ListAsync: List entries failed");
+
+        if (this.loggerService.IsEnabled(LogLevel.Debug))
+        {
+          this.loggerService.LogDebug(
+            "ListAsync: Exception is {message}",
+            JsonSerializer.Serialize(result.Exception?.Message));
+        }
+      }
+
       this.loggerService.LogInformation("ListAsync: Building response");
 
-      var response = new EntryListResponse
+      var response = new EntryListResponse();
+
+      if (result.HasSucceeded)
       {
-        Groups =
-        result?.Entries?
-          .GroupBy(
-            e => e.EntryDate)
-          .Select(
-            g => new EntryListGroupResponse
-            {
-              Name = g.Key.ToString("d"),
-              Total = g.Sum(e => e.Entry),
-              IsEstimate = g.Any(e => e.IsEstimate),
-              Entries = this.mapperService.Map<IEnumerable<EntryListEntryResponse>>(g),
-            }),
-      };
+        response.Groups =
+          result.Result!.Entries?
+            .GroupBy(
+              e => e.EntryDate)
+            .Select(
+              g => new EntryListGroupResponse
+              {
+                Name = g.Key.ToString("d"),
+                Total = g.Sum(e => e.Entry),
+                IsEstimate = g.Any(e => e.IsEstimate),
+                Entries = this.mapperService.Map<IEnumerable<EntryListEntryResponse>>(g),
+              });
+      }
 
       return response;
     }
@@ -214,9 +247,11 @@ namespace MintyPeterson.Counter.Api.Controllers
       [FromRoute]EntryViewRequest request)
     {
       var validationResult = await this.ValidateRequestAsync(
+        this.loggerService,
         "ViewAsync",
         request,
         new EntryViewRequestValidator(this.storageService),
+        this.authorisationService,
         EntryPolicies.ViewPolicy);
 
       if (validationResult is not OkResult)
@@ -228,9 +263,16 @@ namespace MintyPeterson.Counter.Api.Controllers
 
       var result = this.storageService.EntryGet(this.mapperService.Map<EntryGetQuery>(request));
 
-      if (result == null)
+      if (!result.HasSucceeded)
       {
         this.loggerService.LogInformation("ViewAsync: Get failed");
+
+        if (this.loggerService.IsEnabled(LogLevel.Debug))
+        {
+          this.loggerService.LogDebug(
+            "ViewAsync: Exception is {message}",
+            JsonSerializer.Serialize(result.Exception?.Message));
+        }
 
         this.ModelState.AddModelError(
           Resources.Strings.Entry,
@@ -241,7 +283,7 @@ namespace MintyPeterson.Counter.Api.Controllers
 
       this.loggerService.LogInformation("ViewAsync: Building response");
 
-      return this.mapperService.Map<EntryViewResponse>(result);
+      return this.mapperService.Map<EntryViewResponse>(result.Result);
     }
 
     /// <summary>
@@ -253,9 +295,11 @@ namespace MintyPeterson.Counter.Api.Controllers
     public async Task<ActionResult<EntryEditResponse>> EditAsync(EntryEditRequest request)
     {
       var validationResult = await this.ValidateRequestAsync(
+        this.loggerService,
         "EditAsync",
         request,
         new EntryEditRequestValidator(this.storageService),
+        this.authorisationService,
         EntryPolicies.EditPolicy);
 
       if (validationResult is not OkResult)
@@ -274,9 +318,16 @@ namespace MintyPeterson.Counter.Api.Controllers
 
       var result = this.storageService.EntryEdit(query);
 
-      if (result == null)
+      if (!result.HasSucceeded)
       {
         this.loggerService.LogInformation("EditAsync: Update failed");
+
+        if (this.loggerService.IsEnabled(LogLevel.Debug))
+        {
+          this.loggerService.LogDebug(
+            "EditAsync: Exception is {message}",
+            JsonSerializer.Serialize(result.Exception?.Message));
+        }
 
         this.ModelState.AddModelError(
           Resources.Strings.Entry,
@@ -287,77 +338,7 @@ namespace MintyPeterson.Counter.Api.Controllers
 
       this.loggerService.LogInformation("EditAsync: Building response");
 
-      return this.mapperService.Map<EntryEditResponse>(result);
-    }
-
-    /// <summary>
-    /// Validates a request against the given validator and authorisation policy.
-    /// </summary>
-    /// <typeparam name="T">The request type.</typeparam>
-    /// <param name="logIdentifier">The identifier to use when logging.</param>
-    /// <param name="request">The request to validate.</param>
-    /// <param name="requestValidator">A request validator.</param>
-    /// <param name="authorisationPolicyName">The authorisation policy name.</param>
-    /// <returns>An <see cref="ActionResult"/>. If successful, <see cref="OkResult"/>.</returns>
-    public async Task<ActionResult> ValidateRequestAsync<T>(
-      string logIdentifier,
-      T request,
-      AbstractValidator<T> requestValidator,
-      string authorisationPolicyName)
-    {
-      this.loggerService.LogInformation(
-        "{logIdentifier}: Validating model state", logIdentifier);
-
-      if (!this.ModelState.IsValid)
-      {
-        this.loggerService.LogInformation(
-          "{logIdentifier}: Model state not valid", logIdentifier);
-
-        if (this.loggerService.IsEnabled(LogLevel.Debug))
-        {
-          this.loggerService.LogInformation(
-            "{logIdentifier}: State is {state}",
-            logIdentifier,
-            JsonSerializer.Serialize(new SerializableError(this.ModelState)));
-        }
-
-        this.ModelState.Clear();
-
-        this.ModelState.AddModelError(
-          Resources.Strings.Entry,
-          Resources.Strings.RequestNotValid);
-
-        return this.BadRequest(this.ModelState);
-      }
-
-      this.loggerService.LogInformation(
-        "{logIdentifier}: Checking authorisation policy", logIdentifier);
-
-      var requestAuthorisationResult = await this.authorisationService.AuthorizeAsync(
-        this.User, request, authorisationPolicyName);
-
-      if (!requestAuthorisationResult.Succeeded)
-      {
-        this.loggerService.LogInformation(
-          "{logIdentifier}: Authorisation failed", logIdentifier);
-
-        return this.Forbid();
-      }
-
-      this.loggerService.LogInformation(
-        "{logIdentifier}: Validating request", logIdentifier);
-
-      var validationResults = requestValidator.Validate(request);
-
-      if (!validationResults.IsValid)
-      {
-        this.loggerService.LogInformation(
-          "{logIdentifier}: Request not valid", logIdentifier);
-
-        return this.BadRequest(validationResults.AsModelState());
-      }
-
-      return this.Ok();
+      return this.mapperService.Map<EntryEditResponse>(result.Result);
     }
   }
 }

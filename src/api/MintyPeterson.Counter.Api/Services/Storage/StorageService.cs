@@ -13,21 +13,22 @@ namespace MintyPeterson.Counter.Api.Services.Storage
   public abstract class StorageService : IStorageService
   {
     /// <inheritdoc/>
-    public abstract EntryNewResult? EntryNew(EntryNewQuery query);
+    public abstract StorageServiceResult<EntryNewResult> EntryNew(EntryNewQuery query);
 
     /// <inheritdoc/>
-    public abstract EntryGetResult? EntryGet(EntryGetQuery query);
+    public abstract StorageServiceResult<EntryGetResult> EntryGet(EntryGetQuery query);
 
     /// <inheritdoc/>
-    public abstract EntryDeleteResult? EntryDelete(EntryDeleteQuery query);
+    public abstract StorageServiceResult<EntryDeleteResult> EntryDelete(EntryDeleteQuery query);
 
     /// <inheritdoc/>
-    public abstract EntryListResult? EntryList(EntryListQuery query);
+    public abstract StorageServiceResult<EntryListResult> EntryList(EntryListQuery query);
 
     /// <inheritdoc/>
-    public abstract EntryEditResult? EntryEdit(EntryEditQuery query);
+    public abstract StorageServiceResult<EntryEditResult> EntryEdit(EntryEditQuery query);
 
     /// <inheritdoc/>
-    public abstract UserSynchroniseResult? UserSynchronise(UserSynchroniseQuery query);
+    public abstract StorageServiceResult<UserSynchroniseResult> UserSynchronise(
+      UserSynchroniseQuery query);
   }
 }
