@@ -228,6 +228,9 @@ class _SummaryPageState extends State<SummaryPage> {
           onTap: () async {
             await _editEntry(entry.entryId);
           },
+          onLongPress: () async {
+            await _addEntry(entryId: entry.entryId);
+          },
         ),
       );
     }
@@ -304,8 +307,10 @@ class _SummaryPageState extends State<SummaryPage> {
       .pushNamedAndRemoveUntil(SignInPage.route, (_) => false);
   }
 
-  Future<void> _addEntry() async {
-    final bool? result = (await Navigator.of(context).pushNamed(AddEntryPage.route)) as bool?;
+  Future<void> _addEntry({String? entryId}) async {
+    final bool? result = (
+      await Navigator.of(context).pushNamed(AddEntryPage.route, arguments: entryId)
+    ) as bool?;
     if (result ?? false) {
       await _refreshEntryList();
     }

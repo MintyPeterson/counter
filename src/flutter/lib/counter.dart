@@ -39,21 +39,22 @@ class Counter extends StatelessWidget {
             return MaterialPageRoute(
               builder: (_) => Consumer<SignInViewModel>(
                 builder: (_, SignInViewModel viewModel, __) =>
-                    SignInPage(viewModel),
+                  SignInPage(viewModel),
               ),
             );
           case SummaryPage.route:
             return MaterialPageRoute(
               builder: (_) => Consumer<SummaryViewModel>(
                 builder: (_, SummaryViewModel viewModel, __) =>
-                    SummaryPage(viewModel),
+                  SummaryPage(viewModel),
               ),
             );
           case AddEntryPage.route:
+            final String? entryId = settings.arguments as String?;
             return MaterialPageRoute(
               builder: (_) => Consumer<AddEntryViewModel>(
                 builder: (_, AddEntryViewModel viewModel, __) =>
-                    AddEntryPage(viewModel),
+                  AddEntryPage(entryId, viewModel),
               ),
             );
           case EditEntryPage.route:

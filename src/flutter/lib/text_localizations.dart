@@ -15,6 +15,8 @@ class TextLocalizations {
     'en': {
       'addEntry': 'Add entry',
       'addEntryFailed': 'Your entry could not be added. Please try again.',
+      'copyEntry': 'Copy entry',
+      'copyingEntry': 'Copying entry...',
       'counter': 'Counter',
       'date': 'Date',
       'deleteEntryFailed': 'Your entry could not be deleted. Please try again.',
@@ -28,6 +30,7 @@ class TextLocalizations {
       'ok': 'OK',
       'refresh': 'Refresh',
       'retry': 'Retry',
+      'retryCopyEntry': 'Your entry could not be copied. Please try again.',
       'retryLoadEntries': 'Your entries could not be loaded. Please try again.',
       'retryLoadEntry': 'Your entry could not be loaded. Please try again.',
       'required': 'Required',
@@ -52,6 +55,14 @@ class TextLocalizations {
 
   String get addEntryFailed {
     return _localizedValues[locale.languageCode]!['addEntryFailed']!;
+  }
+
+  String get copyEntry {
+    return _localizedValues[locale.languageCode]!['copyEntry']!;
+  }
+
+  String get copyingEntry {
+    return _localizedValues[locale.languageCode]!['copyingEntry']!;
   }
 
   String get counter {
@@ -108,6 +119,10 @@ class TextLocalizations {
 
   String get retry {
     return _localizedValues[locale.languageCode]!['retry']!;
+  }
+
+  String get retryCopyEntry {
+    return _localizedValues[locale.languageCode]!['retryCopyEntry']!;
   }
 
   String get retryLoadEntries {
