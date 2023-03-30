@@ -1,11 +1,13 @@
+import 'package:counter/pages/edit_entry/edit_entry_page.dart';
 import 'package:counter/services/counter/counter_service.dart';
 import 'package:counter/services/counter/requests/entry_delete_request.dart';
 import 'package:counter/services/counter/requests/entry_edit_request.dart';
 import 'package:counter/services/counter/requests/entry_view_request.dart';
 import 'package:counter/services/counter/responses/entry_view_response.dart';
 import 'package:counter/services/secure_storage_service.dart';
-import 'package:flutter/cupertino.dart';
+import 'package:flutter/foundation.dart';
 
+/// The view model for [EditEntryPage].
 class EditEntryViewModel extends ChangeNotifier {
 
   bool _loadingEntry = true;
