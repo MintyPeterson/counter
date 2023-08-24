@@ -257,6 +257,9 @@ class _AddEntryPageState extends State<AddEntryPage> {
         Navigator.of(context).pop(true);
       }
     } on Exception catch (error) {
+      if (!mounted) {
+        return;
+      }
       if (error is PlatformException && error.message!.contains('invalid_grant')) {
         await showDialog(
           context: context,

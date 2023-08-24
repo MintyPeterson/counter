@@ -250,6 +250,9 @@ class _EditEntryPageState extends State<EditEntryPage> {
         Navigator.of(context).pop(true);
       }
     } on Exception catch (error) {
+      if (!mounted) {
+        return;
+      }
       if (error is PlatformException && error.message!.contains('invalid_grant')) {
         await showDialog(
           context: context,
@@ -295,6 +298,9 @@ class _EditEntryPageState extends State<EditEntryPage> {
       }
       Navigator.of(context).pop(true);
     } on Exception catch (error) {
+      if (!mounted) {
+        return;
+      }
       if (error is PlatformException && error.message!.contains('invalid_grant')) {
         await showDialog(
           context: context,

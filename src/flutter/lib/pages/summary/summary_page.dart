@@ -280,6 +280,9 @@ class _SummaryPageState extends State<SummaryPage> {
       await widget.viewModel.refreshEntryList(_searchQuery);
     } on Exception catch (error) {
       if (error is PlatformException && error.message!.contains('invalid_grant')) {
+        if (!mounted) {
+          return;
+        }
         await showDialog(
           context: context,
           builder: (_) => AlertDialog(
