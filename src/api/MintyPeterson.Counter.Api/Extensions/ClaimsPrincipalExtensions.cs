@@ -16,7 +16,7 @@ namespace MintyPeterson.Counter.Api.Extensions
     /// </summary>
     /// <param name="principal">A <see cref="ClaimsPrincipal"/>.</param>
     /// <returns>The subject identifier.</returns>
-    public static string GetSubjectIdentifier(this ClaimsPrincipal principal)
+    public static string? GetSubjectIdentifier(this ClaimsPrincipal principal)
     {
       return principal.FindFirstValue(ClaimTypes.NameIdentifier);
     }
@@ -26,7 +26,7 @@ namespace MintyPeterson.Counter.Api.Extensions
     /// </summary>
     /// <param name="principal">A <see cref="ClaimsPrincipal"/>.</param>
     /// <returns>The full name.</returns>
-    public static string GetName(this ClaimsPrincipal principal)
+    public static string? GetName(this ClaimsPrincipal principal)
     {
       return principal.FindFirstValue(ClaimTypes.Name);
     }
@@ -36,7 +36,7 @@ namespace MintyPeterson.Counter.Api.Extensions
     /// </summary>
     /// <param name="principal">A <see cref="ClaimsPrincipal"/>.</param>
     /// <returns>The e-mail address.</returns>
-    public static string GetEmail(this ClaimsPrincipal principal)
+    public static string? GetEmail(this ClaimsPrincipal principal)
     {
       return principal.FindFirstValue(ClaimTypes.Email);
     }
