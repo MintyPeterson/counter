@@ -9,6 +9,7 @@ namespace MintyPeterson.Counter.Api
   using Microsoft.AspNetCore.Authorization;
   using Microsoft.AspNetCore.Localization;
   using Microsoft.AspNetCore.Mvc;
+  using MintyPeterson.Counter.Api.Exceptions;
   using MintyPeterson.Counter.Api.Filters;
   using MintyPeterson.Counter.Api.Policies;
   using MintyPeterson.Counter.Api.Resources;
@@ -51,8 +52,15 @@ namespace MintyPeterson.Counter.Api
       services.AddTransient<IStorageService>(
         options =>
         {
-          return new DapperStorageService(
-            configuration.GetConnectionString("DapperStorageService"));
+          var connectionString = configuration.GetConnectionString("DapperStorageService");
+
+          if (string.IsNullOrWhiteSpace(connectionString))
+          {
+            throw new ConfigurationMissingException(
+              "The Dapper storage service connection string is missing.");
+          }
+
+          return new DapperStorageService(connectionString);
         });
 
       // Add handlers for policy-based authorisation.
